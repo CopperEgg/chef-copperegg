@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: copperegg
-# Recipe:: default
+# # Attributes :: default
 #
 # Copyright 2013 CopperEgg
 #
@@ -63,9 +63,3 @@ default[:copperegg][:include_roles_astags] = true
 
 # The environment this node lives in will become a CopperEgg tag.
 default[:copperegg][:include_env_astag] = true
-
-#
-# default[:copperegg][:alltags] = ''
-
-#
-# default[:copperegg][:node_fqdn] = ''
