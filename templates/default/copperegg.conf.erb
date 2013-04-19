@@ -2,13 +2,13 @@
 # CopperEgg service defaults
 ##
 
-api_key: <%= @api_key %>
-tags:  <%= @tags %>
-label: <%= @label %>
-oom_protect: <%= @oom_protect %>
-use_fqdn: <%= @use_fqdn %>
-alltags: <%= @alltags %>
-include_chef_tags: <%= @include_chef_tags %> 
-include_roles_astags: <%= @include_roles_astags %>
-include_env_astag: <%= @include_env_astag %>
-node_fqdn: <%= @node_fqdn %>
+api_key: <%= node["copperegg"]["apikey"] %>
+tags:  <%= node["copperegg"]["tags"] %>
+label: <%= node["copperegg"]["label"] %>
+oom_protect: <%= node["copperegg"]["oom_protect"] %>
+use_fqdn: <%= node["copperegg"]["use_fqdn"] %>
+alltags: <%= node["copperegg"]["alltags"] %>
+include_chef_tags: <%= node["copperegg"]["include_chef_tags"] %>
+include_roles_astags: <%= node["copperegg"]["include_roles_astags"] %>
+include_env_astag: <%= node["copperegg"]["include_env_astag"] %>
+node_fqdn: <%= node["copperegg"]["node_fqdn"] %>
