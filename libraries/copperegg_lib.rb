@@ -13,9 +13,11 @@ module CopperEgg
       @apikey = apikey
       case resource_type
       when 'probe'
-        @api_url =  url="https://api.copperegg.com/v2/revealuptime/"
+        @api_url = "https://api.copperegg.com/v2/revealuptime/"
       when 'system'
-        @api_url =  url="https://api.copperegg.com/v2/revealcloud/"
+        @api_url = "https://api.copperegg.com/v2/revealcloud/"
+      when 'handler'
+         @api_url = "https://api.copperegg.com/v2/annotations.json"
       else
         raise "CopperEgg::API invalid resource_type : #{resource_type}" 
         return nil
