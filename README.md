@@ -46,7 +46,7 @@ Creating and managing website and port probes
 =====
 1. The CopperEgg Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of CopperEgg probes.
 2. To create a copperegg probe, you need to include something similar to the following example:
-
+```ruby
   copperegg_probe "ChefProbe2" do
     provider "copperegg_probe"
     action :update                        # update will create or update
@@ -55,7 +55,7 @@ Creating and managing website and port probes
     type 'GET'                            # the test type; in this case, an HTTP GET request
     stations ['dal','nrk']                # override the defaults and specify testing from Dallas and Fremont
   end 
-
+```
 3. You can find descriptions of all required and optional fields in copperegg/resources/probe.rb.
 4. Refer to the Probe section of the CopperEgg API for further details:  [CopperEgg Probe API](http://dev.copperegg.com/revealuptime/probes.html)
 
@@ -78,7 +78,26 @@ License and Author
 ==================
 Authors:: Ross Dickey, Scott Johnson
 
-Copyright 2012, 2013 CopperEgg, Inc.
+##  LICENSE
 
-MIT License. 
+(The MIT License)
 
+Copyright © 2013 [CopperEgg Corporation](http://copperegg.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without
+limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons
+to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
