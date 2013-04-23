@@ -1,0 +1,42 @@
+{
+  "name": "copperegg",
+  "description": "Installs/Configures CopperEgg services",
+  "long_description": "Chef Cookbook for CopperEgg services\n===========\n* Chef cookbook for the CopperEgg collector agent and website / port probes.\n* Requires a CopperEgg account to use.  [Free trial available](https://app.copperegg.com/signup).\n\nRequirements\n============\nbash\n\nPlatform\n========\n* Any Linux 2.6+ OS, including: Ubuntu, Debian, Vyatta, RedHat Enterprise, CentOS, Fedora, Amazon, SuSE, openSuSE, Gentoo, and many derivatives.\n* FreeBSD 7.x+\n* Windows \n\nAttributes\n==========\n* `default[:copperegg][:apikey]` = Your API Key available from the [RevealCloud App Settings Page](https://app.copperegg.com/#settings/site).\n* `default[:copperegg][:tags]` = A comma separated list of tags to apply.  Optional.  [Manage your tags](https://app.copperegg.com/#revealcloud/tags).\n* `default[:copperegg][:label]` = Label to apply in place of hostname when displaying in the dashboard.  WARNING: If you want the same label applied to multiple systems, you may want to consider tags instead.  This is most useful if you intend a recipe for a single server.  Optional.\n* `default[:copperegg][:proxy]` = Proxy server required to talk to the revealcloud api servers, such as `myproxy.mycorp.com:8080`.  Optional.  Leave blank unless you know what you are doing.\n\nUsage\n=====\n1. Download into your chef-repo, either manually from the community chef webpage or:\n* `knife cookbook site download revealcloud`\n2. Set your apikey as described in the `Attributes` section.\n* edit `revealcloud/attributes/default.rb` and change YOUR_USER_API_KEY to be correct.\n3. Set any other optional attributes described above, as desired.\n4. Upload the cookbook to your chef server or hosted chef:\n* `knife cookbook upload -a -o revealcloud`\n5. Include `recipe[revealcloud]` in the run_list for all of your servers.\n* `knife node run_list add NODES 'recipe[revealcloud]'`\n6. Run chef-client on your nodes in whatever manner suits you, such as `sudo chef-client` or a batch job.\n7. View your systems within 10 seconds in the [RevealCloud App](https://app.copperegg.com/#revealcloud/overview)\n\n\nCreating and managing website and port probes\n=====\n\n\n\n\nLinks\n=====\n* [CopperEgg Homepage](http://www.copperegg.com)\n* [RevealCloud Signup](https://app.copperegg.com/signup)\n* [RevealCloud Login](https://app.copperegg.com/login)\n\nLicense and Author\n==================\nAuthor:: Ross Dickey\n\nCopyright 2012, CopperEgg, Inc.\n\nNo License.  Redistribution encouraged.\n\n",
+  "maintainer": "CopperEgg, Inc.",
+  "maintainer_email": "support@copperegg.com",
+  "license": "None",
+  "platforms": {
+    "linux": ">= 2.6.9",
+    "ubuntu": ">= 8.04",
+    "debian": ">= 5.0",
+    "vyatta": ">= 0.0.0",
+    "redhat": ">= 5.0",
+    "centos": ">= 5.0",
+    "fedora": ">= 14.0",
+    "amazon": ">= 2011.02.1",
+    "suse": ">= 11.0",
+    "opensuse": ">= 11.0",
+    "gentoo": ">= 1.12",
+    "windows": ">= 0.0.0"
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "copperegg::default": "Installs CopperEgg collector binary"
+  },
+  "version": "0.1.8"
+}
