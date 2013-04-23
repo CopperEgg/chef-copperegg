@@ -64,7 +64,7 @@ default[:copperegg][:include_roles_astags] = true
 default[:copperegg][:include_env_astag] = true
 
 # Send CopperEgg an annotation for each successful chef run
-default[:copperegg][:annotate_chefrun_success] = true
+default[:copperegg][:annotate_chefrun_success] = false
 
 # Send CopperEgg an annotation for each failed chef run
 default[:copperegg][:annotate_chefrun_fail] = true

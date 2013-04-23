@@ -8,18 +8,12 @@
 #
 include_recipe 'chef_handler'
 
-cookbook_file "/tmp/chef-handler-copperegg.gem" do
-  source "chef-handler-copperegg.gem"
-  mode 00644
+r = gem_package 'chef-handler-copperegg' do
   action :nothing
-end.run_action(:create_if_missing)
-
-chef_gem 'chef-handler-copperegg.gem' do
-  source("/tmp/chef-handler-copperegg.gem") 
-  version "0.1.2"
-  action :install
-  only_if {File.exists?("/tmp/chef-handler-copperegg.gem")}
 end
+r.run_action(:install)
+
+Gem.clear_paths
 
 require 'chef/handler/copperegg'
 

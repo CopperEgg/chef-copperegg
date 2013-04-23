@@ -4,7 +4,7 @@ maintainer_email "support@copperegg.com"
 license          "None"
 description      "Installs/Configures CopperEgg services"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.1.7"
+version          "0.1.8"
 
 recipe "copperegg::default", "Installs CopperEgg collector binary"
 
@@ -22,5 +22,4 @@ supports 'amazon', ">= 2011.02.1"
 supports 'suse', ">= 11.0"
 supports 'opensuse', ">= 11.0"
 supports 'gentoo', ">= 1.12"
-supports 'freebsd', ">= 7.0"
 supports 'windows'
