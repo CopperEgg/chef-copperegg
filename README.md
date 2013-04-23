@@ -44,8 +44,9 @@ Usage
 
 Creating and managing website and port probes
 =====
-1. The CopperEgg Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of CopperEgg probes.
-2. To create a copperegg probe, you need to include something similar to the following example:
+1. The CopperEgg Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of CopperEgg probes.  
+2. To create a copperegg probe, you need to include something similar to the following example:  
+
 ```ruby
   copperegg_probe "ChefProbe2" do
     provider "copperegg_probe"
@@ -55,9 +56,11 @@ Creating and managing website and port probes
     type 'GET'                            # the test type; in this case, an HTTP GET request
     stations ['dal','nrk']                # override the defaults and specify testing from Dallas and Fremont
   end 
-```
+```  
+
 3. You can find descriptions of all required and optional fields in copperegg/resources/probe.rb.
 4. Refer to the Probe section of the CopperEgg API for further details:  [CopperEgg Probe API](http://dev.copperegg.com/revealuptime/probes.html)
+
 
 Creating Annotations in the CopperEgg UI for chef run events.
 =====
@@ -74,11 +77,10 @@ Links
 * [CopperEgg Signup](https://app.copperegg.com/signup)
 * [CopperEgg Login](https://app.copperegg.com/login)
 
+
 License and Author
 ==================
 Authors:: Ross Dickey, Scott Johnson
-
-##  LICENSE
 
 (The MIT License)
 
