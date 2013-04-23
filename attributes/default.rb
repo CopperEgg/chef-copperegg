@@ -54,8 +54,7 @@ default[:copperegg][:oom_protect] = false
 # false => Default.  Recommended. CopperEgg will create a uuid.
 default[:copperegg][:use_fqdn] = false
 
-# Tags on the chef node will become tags in the CopperEgg system letter for
-# letter.
+# Tags on the chef node will become tags in the CopperEgg system. 
 default[:copperegg][:include_chef_tags] = true
 
 # The role or roles assigned to your node will will become CopperEgg tags
@@ -63,3 +62,10 @@ default[:copperegg][:include_roles_astags] = true
 
 # The environment this node lives in will become a CopperEgg tag.
 default[:copperegg][:include_env_astag] = true
+
+# Send CopperEgg an annotation for each successful chef run
+default[:copperegg][:annotate_chefrun_success] = true
+
+# Send CopperEgg an annotation for each failed chef run
+default[:copperegg][:annotate_chefrun_fail] = true
+

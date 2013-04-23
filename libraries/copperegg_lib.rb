@@ -10,6 +10,7 @@
 module CopperEgg
   class API
     def initialize(apikey, resource_type)
+      Chef::Log.debug "copperegg::api initialize apikey is #{apikey} \n"
       @apikey = apikey
       case resource_type
       when 'probe'
@@ -90,6 +91,13 @@ module CopperEgg
       return api_request('get', 'systems.json')
     end
 
+    def create_annotation(hostname,params)
+      Chef::Log.debug "create_annotation \n" 
+      body = params.keep_if{ |k,v| v != nil }
+      return api_request('post', '', body)
+    end
+
+
     def get_system(uuid)                     # retrieve a specific system from CopperEgg
       Chef::Log.debug "get_system \n"      
       return api_request('get', "systems/#{uuid}.json")
@@ -121,7 +129,15 @@ module CopperEgg
     def api_request(http_method, resource, body=nil)
       attempts = 2
       connect_try_count = 0
-      uri = URI.parse(@api_url + URI.escape(resource))
+      Chef::Log.debug "@api_url is #{@api_url} \n"   
+      Chef::Log.debug "@apikey is #{@apikey} \n"   
+      if resource == ''
+        uri = URI.parse(@api_url)
+      else
+        uri = URI.parse(@api_url + URI.escape(resource))
+      end
+
+      Chef::Log.debug "uri.request_uri is #{uri.request_uri} \n"   
       http = Net::HTTP.new(uri.host, uri.port)
       if uri.scheme == "https"
         http.use_ssl = true
@@ -142,6 +158,7 @@ module CopperEgg
       request.basic_auth(@apikey, 'U')
       request.body = body.to_json unless body.nil?
       
+      Chef::Log.debug "body is is #{request.body} \n"   
       begin
         Timeout::timeout(10) do
           response = http.request(request)
