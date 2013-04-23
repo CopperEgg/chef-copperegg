@@ -98,46 +98,17 @@ module CopperEgg
     end
 
 
-    def get_system(uuid)                     # retrieve a specific system from CopperEgg
-      Chef::Log.debug "get_system \n"      
-      return api_request('get', "systems/#{uuid}.json")
-    end
-
-    def add_systemtag(name, params)
-      Chef::Log.debug "add_systemtag \n"
-      body = {"probe_desc"=>params["probe_desc"],
-              "probe_dest"=>params["probe_dest"],
-              "type"=>params["type"],
-              "frequency"=>params["frequency"],
-              "timeout"=>params["timeout"],
-              "state"=>params["state"],
-              "stations"=>params["stations"],
-              "tags"=>params["tags"],
-              "probe_data"=>params["probe_data"],
-              "checkcontents"=>params["checkcontents"],
-              "contentmatch"=>params["contentmatch"]  }
-      return api_request('post', 'probes.json',body)
-    end
-
-    def remove_systemtag(name, params)
-      Chef::Log.debug "remove_systemtag \n"
-    end
-
-
     private
 
     def api_request(http_method, resource, body=nil)
       attempts = 2
       connect_try_count = 0
-      Chef::Log.debug "@api_url is #{@api_url} \n"   
-      Chef::Log.debug "@apikey is #{@apikey} \n"   
       if resource == ''
         uri = URI.parse(@api_url)
       else
         uri = URI.parse(@api_url + URI.escape(resource))
       end
 
-      Chef::Log.debug "uri.request_uri is #{uri.request_uri} \n"   
       http = Net::HTTP.new(uri.host, uri.port)
       if uri.scheme == "https"
         http.use_ssl = true
@@ -158,7 +129,6 @@ module CopperEgg
       request.basic_auth(@apikey, 'U')
       request.body = body.to_json unless body.nil?
       
-      Chef::Log.debug "body is is #{request.body} \n"   
       begin
         Timeout::timeout(10) do
           response = http.request(request)
