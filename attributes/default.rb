@@ -69,3 +69,7 @@ default[:copperegg][:annotate_chefrun_success] = false
 # Send CopperEgg an annotation for each failed chef run
 default[:copperegg][:annotate_chefrun_fail] = true
 
+# Create an external SSH probe for this node.
+default[:copperegg][:create_sshprobe] = false
+
+

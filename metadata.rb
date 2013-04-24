@@ -1,10 +1,10 @@
 name             "copperegg"
 maintainer       "CopperEgg, Inc."
 maintainer_email "support@copperegg.com"
-license          "None"
+license          "MIT"
 description      "Installs/Configures CopperEgg services"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.1.8"
+version          "0.1.9"
 
 recipe "copperegg::default", "Installs CopperEgg collector binary"
 

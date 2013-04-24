@@ -12,58 +12,59 @@ cetags = ''
 tmpfqdn = ''
 tag_list = ''
 
+
+include_recipe "copperegg::service"     # which temporarily refers to revealcloud service
+
+if  node.copperegg.attribute?('tags') 
+  cetags = node.copperegg.tags
+end
+
+# If node.copperegg.tags_override exists regardless of value, then do _not_
+# include the chef_environment and chef roles in the tag list
+unless node.copperegg.attribute?('tags_override')
+
+  # Take the tags specified at the node and add to them the chef_environment and the roles
+
+  # Add the chef environment to the list
+  if  node.copperegg.include_env_astag 
+    tags.push(node.chef_environment)
+  end
+
+  # Add any chef roles to the list
+  if node.copperegg.include_roles_astags 
+    node.roles.each do |role|
+      tags.push(role)
+    end
+  end
+
+  if node.copperegg.include_chef_tags 
+    # Add any chef tags to the list
+    node.tags.each do |tag|
+      tags.push(tag)
+    end
+  end
+end
+
+if node.copperegg.attribute?('use_fqdn') 
+  if node['copperegg']['use_fqdn']
+    Chef::Log.warn('Setting UUID to FQDN:\n')
+    tmpfqdn = node['fqdn']
+    node.set['copperegg']['node_fqdn'] = "#{node.fqdn}"
+  end
+end
+
+# Create a comma seperated list of tags.
+tag_list = tags.uniq.join(',')
+tag_list = tag_list + ',' + cetags
+node.set['copperegg']['alltags'] = tag_list
+
 if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
-
-  include_recipe "copperegg::service"     # which temporarily refers to revealcloud service
-
+  
   directory '/etc/copperegg' do
     owner 'root'
     group 'root'
     mode 0764
   end
- 
-  if  node.copperegg.attribute?('tags') 
-    cetags = node.copperegg.tags
-  end
-
-  # If node.copperegg.tags_override exists regardless of value, then do _not_
-  # include the chef_environment and chef roles in the tag list
-  unless node.copperegg.attribute?('tags_override')
-
-    # Take the tags specified at the node and add to them the chef_environment and the roles
-
-    # Add the chef environment to the list
-    if  node.copperegg.include_env_astag 
-      tags.push(node.chef_environment)
-    end
-
-    # Add any chef roles to the list
-    if node.copperegg.include_roles_astags 
-      node.roles.each do |role|
-        tags.push(role)
-      end
-    end
-
-    if node.copperegg.include_chef_tags 
-      # Add any chef tags to the list
-      node.tags.each do |tag|
-        tags.push(tag)
-      end
-    end
-  end
-
-  if node.copperegg.attribute?('use_fqdn') 
-    if node['copperegg']['use_fqdn']
-      Chef::Log.warn('Setting UUID to FQDN:\n')
-      tmpfqdn = node['fqdn']
-      node.set['copperegg']['node_fqdn'] = "#{node.fqdn}"
-    end
-  end
-
-  # Create a comma seperated list of tags.
-  tag_list = tags.uniq.join(',')
-  tag_list = tag_list + ',' + cetags
-  node.set['copperegg']['alltags'] = tag_list
 
   script 'revealcloud_install' do
     interpreter 'bash'
@@ -92,22 +93,33 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     notifies :start, resources(:service => 'revealcloud'), :delayed
   end
 
-end   # end of    if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian')
+elsif platform?('windows')
 
-if platform?('windows')
+  
+
   windows_package 'RevealCloudSetup.msi' do
     source 'http://s3.amazonaws.com/cuegg_collectors/revealcloud/3.0.41.0/windows/RevealCloudSetup.msi'
     installer_type :msi
     action :install
-    options "/qbr APIKEY=\"#{node['copperegg']['apikey']}\" TAGS=\"#{tag_list}\" LABEL=\"my winserver\""
+    options "/qbr APIKEY=\"#{node['copperegg']['apikey']}\" TAGS=\"#{tag_list}\" LABEL=\"#{node['copperegg']['label']}\""
   end
-end  
+end
 
+if node['copperegg']['create_sshprobe'] && node.attribute?('ec2') && node.attribute.ec2.attribute?('public_hostname')
+  hn = 'CheckPort22_' + node['hostname']
+  pd = node['ec2']['public_hostname'] + ':22'
+  Chef::Log.debug "hn is #{hn}"
+  Chef::Log.debug "pd is #{pd}"
+  tag_array = tag_list.split(',')
 
-
-
-
-
-
+  copperegg_probe hn do
+    provider "copperegg_probe"
+    action :update
+    probe_desc hn
+    probe_dest pd
+    type 'TCP'
+    tags tag_array
+  end
+end
 
 

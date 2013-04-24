@@ -6,9 +6,10 @@
 #
 #
 
-actions :create, :update, :delete, :enable, :disable
-default_action :create
+actions :update, :delete, :enable, :disable
+default_action :update
 
+# Note that update will either update an existing probe, or create a new probe.
 # For a complete understanding of these settings see our API documentation at
 # http://dev.copperegg.com/revealuptime/probes.html
 attribute :probe_desc, :kind_of => String, :name_attribute => true, :required => true
@@ -24,8 +25,7 @@ attribute :frequency, :kind_of => [NilClass,Fixnum]
 attribute :timeout, :kind_of => [NilClass,Fixnum]
 #:default => 'enabled'
 attribute :state, :kind_of => [NilClass,Array]
-#:default => ['dal','nrk','fre','atl','lon','tok']
-attribute :stations, :kind_of => [NilClass,Array]
+attribute :stations, :kind_of => [NilClass,Array], :default => ['dal','nrk','fre','atl']
 #:default => []
 attribute :tags, :kind_of => [NilClass,Array]
 attribute :probe_data, :kind_of => [NilClass,String]

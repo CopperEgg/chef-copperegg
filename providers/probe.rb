@@ -14,7 +14,7 @@ end
 def load_current_resource
   @cuegg = CopperEgg::API.new(node.copperegg.apikey,'probe')
 
-  @current_resource = Chef::Resource::ChefCoppereggProbe.new(@new_resource.probe_desc)
+  @current_resource = Chef::Resource::CoppereggProbe.new(@new_resource.probe_desc)
   @current_resource.probe_desc(@new_resource.probe_desc)
   @current_resource.probe_dest(@new_resource.probe_dest)
   @current_resource.type(@new_resource.type)
@@ -24,32 +24,6 @@ def load_current_resource
     Chef::Log.info "Probe found #{@new_resource.probe_desc}"
     @current_resource.probe_id(@cuegg.get_probeid(@phash))
     @current_resource.exists = true
-  end
-end
-
-action :create do
- if @current_resource.exists
-    Chef::Log.info "#{ @new_resource } already exists - nothing to do."
-  else
-    converge_by("Create #{ @new_resource }") do
-      begin
-        Chef::Log.info 'Creating probe #{@new_resource.probe_desc}'
-        params = {'probe_desc' => @new_resource.probe_desc,
-                  'probe_dest' => @new_resource.probe_dest,
-                  'type' => @new_resource.type,
-                  'frequency' => @new_resource.frequency,
-                  'timeout' => @new_resource.timeout,
-                  'state ' => @new_resource.state,
-                  'stations' => @new_resource.stations,
-                  'tags' => @new_resource.tags,
-                  'probe_data' => @new_resource.probe_data,
-                  'checkcontents' => @new_resource.checkcontents,
-                  'contentmatch' => @new_resource.contentmatch   } 
-        @cuegg.create_probe(@new_resource.probe_desc, params )
-      rescue => error
-        Chef::Log.warn(error.to_s)
-      end
-    end
   end
 end
 
@@ -72,7 +46,25 @@ action :update do
       end
     end
   else
-    Chef::Log.info "#{ @current_resource } doesn't exist - can't update."
+    converge_by("Create #{ @new_resource }") do
+      begin
+        Chef::Log.info 'Creating probe #{@new_resource.probe_desc}'
+        params = {'probe_desc' => @new_resource.probe_desc,
+                  'probe_dest' => @new_resource.probe_dest,
+                  'type' => @new_resource.type,
+                  'frequency' => @new_resource.frequency,
+                  'timeout' => @new_resource.timeout,
+                  'state ' => @new_resource.state,
+                  'stations' => @new_resource.stations,
+                  'tags' => @new_resource.tags,
+                  'probe_data' => @new_resource.probe_data,
+                  'checkcontents' => @new_resource.checkcontents,
+                  'contentmatch' => @new_resource.contentmatch   } 
+        @cuegg.create_probe(@new_resource.probe_desc, params )
+      rescue => error
+        Chef::Log.warn(error.to_s)
+      end
+    end
   end
 end
 
