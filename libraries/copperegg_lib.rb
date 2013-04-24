@@ -36,12 +36,12 @@ module CopperEgg
 
     # returns an array of probe_hashes, or nil
     def get_probelist()
-      Chef::Log.debug "get_probelist \n" 
+      Chef::Log.info "get_probelist \n" 
       return api_request('get', 'probes.json')
     end
 
     def get_probe(probe_id)                     # retrieve a specific probe from CopperEgg
-      Chef::Log.debug "get_probe \n"      
+      Chef::Log.info "get_probe \n"      
       return api_request('get', "probes/#{probe_id}.json")
     end
 
@@ -61,38 +61,39 @@ module CopperEgg
     end
 
     def create_probe(name, params)
-      Chef::Log.debug "Create_probe \n"
+      Chef::Log.info "Create_probe \n"
       body = params.keep_if{ |k,v| v != nil }
       return api_request('post', 'probes.json', body)
     end
 
     def update_probe(probe_id, params)
-      Chef::Log.debug "Update_probe \n"
+      Chef::Log.info "Update_probe \n"
       body = params.keep_if{ |k,v| v != nil }
       return api_request('put',"probes/#{probe_id}.json",body)
     end
 
     def delete_probe(probe_id)
-      Chef::Log.debug "Delete_probe \n"
+      Chef::Log.info "Delete_probe \n"
       return api_request('delete',"probes/#{probe_id}.json")
     end
 
     def add_probetag(probe_id, tag)
-      Chef::Log.debug "add_probetag \n" 
+      Chef::Log.info "add_probetag \n" 
     end
 
     def remove_probetag(probe_id, tag)
-      Chef::Log.debug "remove_probetag \n" 
+      Chef::Log.info "remove_probetag \n" 
     end
 
     # returns an array of probe_hashes, or nil
     def get_systemlist()
-      Chef::Log.debug "get_systemlist \n" 
+      Chef::Log.info "get_systemlist \n" 
       return api_request('get', 'systems.json')
     end
 
+
     def create_annotation(hostname,params)
-      Chef::Log.debug "create_annotation \n" 
+      Chef::Log.info "create_annotation \n" 
       body = params.keep_if{ |k,v| v != nil }
       return api_request('post', '', body)
     end

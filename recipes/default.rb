@@ -65,6 +65,8 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     group 'root'
     mode 0764
   end
+  
+  my_uuid = ''
 
   script 'revealcloud_install' do
     interpreter 'bash'
@@ -79,6 +81,7 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
         export RC_OOM_PROTECT="#{node[:copperegg][:oom_protect] || ''}"
         export RC_UUID="#{tmpfqdn}"
         /tmp/revealcloud_installer.sh
+        "#{my_uuid}" = /usr/local/revealcloud/revealcloud -L -xk "#{node['copperegg']['apikey']}" -E -m -x 2>&1 | egrep 'Success' | egrep -o '[0-9a-f]{32}'
     EOH
     action :nothing
   end
@@ -94,8 +97,6 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
   end
 
 elsif platform?('windows')
-
-  
 
   windows_package 'RevealCloudSetup.msi' do
     source 'http://s3.amazonaws.com/cuegg_collectors/revealcloud/3.0.41.0/windows/RevealCloudSetup.msi'

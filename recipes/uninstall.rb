@@ -23,5 +23,5 @@ end
 
 # Remove this role from the run_list after a the new server is built.
 ruby_block 'remove uninstall recipe' do
-  block {node.run_list.remove('recipe[chef-copperegg::uninstall]')}
+  block {node.run_list.remove('recipe[copperegg::uninstall]')}
 end

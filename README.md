@@ -29,7 +29,9 @@ Attributes
 
 Usage
 =====
-1. Download into your chef-repo, either manually from the community chef webpage or:
+1. Download the CopperEgg cookbook into your `chef-repo/cookbooks/copperegg` directory: (the cookbook directory name must be copperegg)
+* `git clone https://github.com/CopperEgg/chef-copperegg.git ./copperegg`, or
+*  manually download from the Opscode community site `http://community.opscode.com/cookbooks/copperegg`, or
 * `knife cookbook site download copperegg`
 2. Set your apikey as described in the `Attributes` section.
 * edit `copperegg/attributes/default.rb` and change YOUR_USER_API_KEY to be correct.
