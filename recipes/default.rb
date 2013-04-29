@@ -97,7 +97,8 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     group 'root'
     source 'copperegg.conf.erb'
     mode 0664
-    action :create_if_missing
+    action :create
+    notifies :restart, "service[revealcloud]"
   end
 
   service 'revealcloud' do
