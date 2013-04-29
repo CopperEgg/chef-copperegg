@@ -8,7 +8,7 @@ version          "0.2.0"
 
 recipe "copperegg::default", "Installs CopperEgg collector binary"
 
-# Uncomment to include support for WIndows
+# Uncomment to include support for Windows
 #depends "windows"
 
 supports 'linux', ">= 2.6.9"
