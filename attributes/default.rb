@@ -73,4 +73,4 @@ default[:copperegg][:annotate_chefrun_fail] = true
 default[:copperegg][:remove_on_uninstall] = false
 
 # Create an external SSH probe for this node.
-default[:copperegg][:create_sshprobe] = true
+default[:copperegg][:create_sshprobe] = false
