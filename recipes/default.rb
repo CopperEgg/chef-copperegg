@@ -3,17 +3,16 @@
 # Recipe:: default
 #
 # Copyright 2013 CopperEgg
-#
-# Redistribution Encouraged
+# License:: MIT License
 #
 
 tags = []
 cetags = ''
 tmpfqdn = ''
 tag_list = ''
+current_url = ''
+node.default['copperegg']['must_start'] = false
 
-
-include_recipe "copperegg::service"     # which temporarily refers to revealcloud service
 
 if  node.copperegg.attribute?('tags') 
   cetags = node.copperegg.tags
@@ -45,28 +44,28 @@ unless node.copperegg.attribute?('tags_override')
   end
 end
 
+# Create a comma seperated list of tags.
+tag_list = tags.uniq.join(',')
+tag_list = tag_list + ',' + cetags
+node.normal['copperegg']['alltags'] = tag_list
+
 if node.copperegg.attribute?('use_fqdn') 
   if node['copperegg']['use_fqdn']
     Chef::Log.warn('Setting UUID to FQDN:\n')
     tmpfqdn = node['fqdn']
-    node.set['copperegg']['node_fqdn'] = "#{node.fqdn}"
+    node.normal['copperegg']['node_fqdn'] = "#{node.fqdn}"
   end
 end
 
-# Create a comma seperated list of tags.
-tag_list = tags.uniq.join(',')
-tag_list = tag_list + ',' + cetags
-node.set['copperegg']['alltags'] = tag_list
-
 if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
-  
-  directory '/etc/copperegg' do
-    owner 'root'
-    group 'root'
-    mode 0764
+ 
+  ruby_block 'make_it_happen' do
+    block do
+      @cuegg = CopperEgg::API.new(node['copperegg']['apikey'],'nix_collector')
+      rslt = @cuegg.get_collector_state()
+      node.default['copperegg']['must_start'] = rslt
+    end
   end
-  
-  my_uuid = ''
 
   script 'revealcloud_install' do
     interpreter 'bash'
@@ -81,9 +80,16 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
         export RC_OOM_PROTECT="#{node[:copperegg][:oom_protect] || ''}"
         export RC_UUID="#{tmpfqdn}"
         /tmp/revealcloud_installer.sh
-        "#{my_uuid}" = /usr/local/revealcloud/revealcloud -L -xk "#{node['copperegg']['apikey']}" -E -m -x 2>&1 | egrep 'Success' | egrep -o '[0-9a-f]{32}'
     EOH
-    action :nothing
+    action :run
+    only_if {node.default['copperegg']['must_start'] == true}
+  end
+
+  directory '/etc/copperegg' do
+    owner 'root'
+    group 'root'
+    mode 0764
+    action :create
   end
 
   template '/etc/copperegg/copperegg.conf' do
@@ -92,35 +98,48 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     source 'copperegg.conf.erb'
     mode 0664
     action :create_if_missing
-    notifies :run, resources(:script => 'revealcloud_install'), :delayed
-    notifies :start, resources(:service => 'revealcloud'), :delayed
+  end
+
+  service 'revealcloud' do
+    supports :start => true, :stop => true, :restart => true
+    action :start
   end
 
 elsif platform?('windows')
-
-  windows_package 'RevealCloudSetup.msi' do
-    source 'http://s3.amazonaws.com/cuegg_collectors/revealcloud/3.0.41.0/windows/RevealCloudSetup.msi'
-    installer_type :msi
-    action :install
-    options "/qbr APIKEY=\"#{node['copperegg']['apikey']}\" TAGS=\"#{tag_list}\" LABEL=\"#{node['copperegg']['label']}\""
+  
+  @cuegg = CopperEgg::API.new(node['copperegg']['apikey'],'win_collector')
+  installer_url = @cuegg.get_installer_url()
+  if installer_url != nil && installer_url['installer'] != nil
+    current_url = installer_url['installer'] 
+    windows_package 'RevealCloudSetup.msi' do
+      source current_url
+      installer_type :msi
+      action :install
+      options "/qbr APIKEY=\"#{node['copperegg']['apikey']}\" TAGS=\"#{tag_list}\" LABEL=\"#{node['copperegg']['label']}\""
+    end
+    service 'RevealCloud' do
+      action :enable
+    end
+    service 'RevealCloud' do
+      action :start
+    end
   end
 end
 
-if node['copperegg']['create_sshprobe'] && node.attribute?('ec2') && node.attribute.ec2.attribute?('public_hostname')
-  hn = 'CheckPort22_' + node['hostname']
-  pd = node['ec2']['public_hostname'] + ':22'
-  Chef::Log.debug "hn is #{hn}"
-  Chef::Log.debug "pd is #{pd}"
-  tag_array = tag_list.split(',')
+if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
+  if node['copperegg']['create_sshprobe'] && node.attribute?('ec2') && node.attribute.ec2.attribute?('public_hostname')
+    hn = "CheckPort22_#{node['hostname']}"
+    pd = "#{node['ec2']['public_hostname']}:22"
+    tag_array = tag_list.split(',')
 
-  copperegg_probe hn do
-    provider "copperegg_probe"
-    action :update
-    probe_desc hn
-    probe_dest pd
-    type 'TCP'
-    tags tag_array
+    copperegg_probe hn do
+      provider "copperegg_probe"
+      action :update
+      probe_desc hn
+      probe_dest pd
+      type 'TCP'
+      tags tag_array
+    end
   end
 end
-
 

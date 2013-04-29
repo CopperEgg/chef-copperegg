@@ -3,7 +3,7 @@
 # Provider:: probe
 #
 # Copyright 2012, 2013 CopperEgg Corporation
-#
+# License:: MIT License
 #
 
 # Support whyrun
@@ -48,7 +48,7 @@ action :update do
   else
     converge_by("Create #{ @new_resource }") do
       begin
-        Chef::Log.info 'Creating probe #{@new_resource.probe_desc}'
+        Chef::Log.info "Creating probe #{@new_resource.probe_desc}"
         params = {'probe_desc' => @new_resource.probe_desc,
                   'probe_dest' => @new_resource.probe_dest,
                   'type' => @new_resource.type,
@@ -60,7 +60,20 @@ action :update do
                   'probe_data' => @new_resource.probe_data,
                   'checkcontents' => @new_resource.checkcontents,
                   'contentmatch' => @new_resource.contentmatch   } 
-        @cuegg.create_probe(@new_resource.probe_desc, params )
+        probehash = @cuegg.create_probe(@new_resource.probe_desc, params )
+        Chef::Log.info "probehash returned #{probehash.inspect}"
+        if probehash != nil
+          probe_id = @cuegg.get_probeid(probehash)
+          Chef::Log.info "probe_id is #{probe_id}"
+          if probe_id
+            parray = node['copperegg']['myprobes']
+            if parray.include?(probe_id) == false
+               Chef::Log.info "Adding probe_id #{probe_id} to array"
+              parray << probe_id
+              node.normal['copperegg']['myprobes'] = parray
+            end
+          end 
+        end           
       rescue => error
         Chef::Log.warn(error.to_s)
       end

@@ -3,7 +3,7 @@
 # Resource:: probe
 #
 # Copyright 2012, 2013 CopperEgg Corporation
-#
+# License:: MIT License
 #
 
 actions :update, :delete, :enable, :disable

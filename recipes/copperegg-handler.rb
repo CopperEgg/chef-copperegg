@@ -3,8 +3,7 @@
 # Recipe:: copperegg-handler
 #
 # Copyright 2013 CopperEgg
-#
-# Redistribution Encouraged
+# License:: MIT License
 #
 include_recipe 'chef_handler'
 
