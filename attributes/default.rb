@@ -3,8 +3,7 @@
 # # Attributes :: default
 #
 # Copyright 2013 CopperEgg
-#
-# Redistribution Encouraged
+# License:: MIT License
 #
 
 # Your use api key, found on this page:

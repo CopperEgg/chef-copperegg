@@ -42,10 +42,9 @@ module CopperEgg
       `curl -sk https://#{@apikey}:U@api.copperegg.com/rc_rm.sh  > /tmp/revealcloud_uninstaller.sh`
       `chmod +x /tmp/revealcloud_uninstaller.sh`
       `/tmp/revealcloud_uninstaller.sh`
-      `rm -rf /etc/copperegg/`
     end
 
-    def get_collector_state()
+    def get_collector_state(updated)
       rslt = false      # assume install is not necessary
       mypid = ''
       collver = ''
@@ -62,8 +61,14 @@ module CopperEgg
       `curl -sk https://#{@apikey}:U@api.copperegg.com/chef.sh  > /tmp/chef.sh`
       installer_ver = `grep URL_LINUX_64 /tmp/chef.sh -m 1 | cut -d '/' -f6`
       installer_ver.chomp!
-      if (rundir == true) && (confdir == false)
-        Chef::Log.info "Upgrading from revealcloud cookobook" 
+      if (updated == true) 
+        if (rundir == true)
+          self.uninstall_collector()
+        end
+        Chef::Log.info "Restarting becuse of updated attributes"   
+        rslt = true
+      elsif (rundir == true) && (confdir == false)
+        Chef::Log.info "Upgrading from revealcloud cookbook" 
         self.uninstall_collector()
         rslt = true
       elsif ( rundir == true) && (confdir == true) &&

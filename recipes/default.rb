@@ -11,8 +11,8 @@ cetags = ''
 tmpfqdn = ''
 tag_list = ''
 current_url = ''
-node.default['copperegg']['must_start'] = false
-
+node.default['copperegg']['must_restart'] = false
+node.default['copperegg']['template_updated'] = false
 
 if  node.copperegg.attribute?('tags') 
   cetags = node.copperegg.tags
@@ -59,11 +59,35 @@ end
 
 if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
  
-  ruby_block 'make_it_happen' do
+  directory '/etc/copperegg' do
+    owner 'root'
+    group 'root'
+    mode 0764 
+    action :create
+  end
+
+  ruby_block 'template_update' do
+    block do
+      Chef::Log.warn('Template update!')
+      node.default['copperegg']['template_updated'] = true  
+    end
+    action  :nothing
+  end
+
+  template '/etc/copperegg/copperegg.conf' do
+    owner 'root'
+    group 'root'
+    source 'copperegg.conf.erb'
+    mode 0664
+    action :create
+    notifies :create, "ruby_block[template_update]", :immediately 
+  end
+
+ ruby_block 'check_current_state' do
     block do
       @cuegg = CopperEgg::API.new(node['copperegg']['apikey'],'nix_collector')
-      rslt = @cuegg.get_collector_state()
-      node.default['copperegg']['must_start'] = rslt
+      rslt = @cuegg.get_collector_state(node.default['copperegg']['template_updated'])
+      node.default['copperegg']['must_restart'] = rslt
     end
   end
 
@@ -82,22 +106,7 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
         /tmp/revealcloud_installer.sh
     EOH
     action :run
-    only_if {node.default['copperegg']['must_start'] == true}
-  end
-
-  directory '/etc/copperegg' do
-    owner 'root'
-    group 'root'
-    mode 0764
-    action :create
-  end
-
-  template '/etc/copperegg/copperegg.conf' do
-    owner 'root'
-    group 'root'
-    source 'copperegg.conf.erb'
-    mode 0664
-    action :create_if_missing
+    only_if {node.default['copperegg']['must_restart'] == true}
   end
 
   service 'revealcloud' do
