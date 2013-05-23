@@ -67,9 +67,11 @@ Creating and managing website and port probes
 
 Creating Annotations in the CopperEgg UI for chef run events.
 =====
-The CopperEgg Cookbook includes integration with the Chef Report and Exception Handlers. To enable this functionality:
-1. include the chef_handler cookbook from Opscode in your chef repo, and in your run list, or have your application cookbook `depend` on the copperegg cookbook in its metadata.
-1. include the recipe copperegg-handler.rb in your run_list or include it in your application cookbook with `include_recipe`.
+The CopperEgg Cookbook includes integration with the Chef Report and Exception
+Handlers. To enable this functionality choose one of the following:
+* Include the recipe copperegg-handler.rb in your run_list, or
+* Include the recipe copperegg-handler in your application cookbook with
+`include_recipe`.
 
 That's it!
 

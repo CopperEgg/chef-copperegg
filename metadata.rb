@@ -6,6 +6,8 @@ description      "Installs/Configures CopperEgg services"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.2.1"
 
+depends 'chef_handler', '> 1.0.0'
+
 recipe "copperegg::default", "Installs CopperEgg collector binary"
 
 # Uncomment to include support for Windows
