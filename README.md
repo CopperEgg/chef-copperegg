@@ -57,6 +57,7 @@ Creating and managing website and port probes
     probe_dest "http://yoursite.com"      # the URL to test
     type 'GET'                            # the test type; in this case, an HTTP GET request
     stations ['dal','nrk']                # override the defaults and specify testing from Dallas and Fremont
+    tags ["production",'load_balancer']   # The tags to apply to this probe
   end 
 ```  
 
@@ -66,11 +67,15 @@ Creating and managing website and port probes
 
 Creating Annotations in the CopperEgg UI for chef run events.
 =====
-1. The CopperEgg Cookbook includes integration with the Chef Report and Exception Handlers. To enable this functionality:
-* include the chef_handler cookbook from Opscode in your chef repo, and in your run list.
-* include the recipe copperegg-handler.rb in your run list. That's it!
-* By default, each chef run will create a annotation at copperegg only when the chef run fails. 
-* You can change this behavior by changing the [:copperegg][:annotate_chefrun_success] and [:copperegg][:annotate_chefrun_fail] attributes.
+The CopperEgg Cookbook includes integration with the Chef Report and Exception Handlers. To enable this functionality:
+1. include the chef_handler cookbook from Opscode in your chef repo, and in your run list, or have your application cookbook `depend` on the copperegg cookbook in its metadata.
+1. include the recipe copperegg-handler.rb in your run_list or include it in your application cookbook with `include_recipe`.
+
+That's it!
+
+Note:
+* By default, each chef run will create an annotation at copperegg only when the chef run fails.
+* You can change this behavior by changing the [:copperegg][:annotate_chefrun_success] and [:copperegg][:annotate_chefrun_fail] attributes in the default attributes file or by overriding them in your application cookbook.
 
 
 Links
