@@ -3,6 +3,12 @@ Chef Cookbook for CopperEgg services
 * Chef cookbook for the CopperEgg collector agent and website / port probes.
 * Requires a CopperEgg account to use.  [Free trial available](https://app.copperegg.com/signup).
 
+Recent Updates
+============
+Version 0.2.2   Released July 11, 2013
+This release fixes the problem of 'Cookbook Annotations do not work for omnibus install', reported both as an issue in GitHub, and on our support site.
+
+
 Requirements
 ============
 Chef 10 and up.
@@ -10,7 +16,7 @@ Chef 10 and up.
 Platform
 ========
 * Any Linux 2.6+ OS, including: Ubuntu, Debian, Vyatta, RedHat Enterprise, CentOS, Fedora, Amazon, SuSE, openSuSE, Gentoo, and many derivatives.
-* Windows 
+* Windows
 
 Attributes
 ==========
@@ -46,8 +52,8 @@ Usage
 
 Creating and managing website and port probes
 =====
-1. The CopperEgg Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of CopperEgg probes.  
-2. To create a copperegg probe, you need to include something similar to the following example:  
+1. The CopperEgg Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of CopperEgg probes.
+2. To create a copperegg probe, you need to include something similar to the following example:
 
 ```ruby
   copperegg_probe "ChefProbe2" do
@@ -57,9 +63,14 @@ Creating and managing website and port probes
     probe_dest "http://yoursite.com"      # the URL to test
     type 'GET'                            # the test type; in this case, an HTTP GET request
     stations ['dal','nrk']                # override the defaults and specify testing from Dallas and Fremont
+<<<<<<< HEAD
+  end
+```
+=======
     tags ["production",'load_balancer']   # The tags to apply to this probe
   end 
 ```  
+>>>>>>> b869ba007c92b827d3731b0cefd138e2c324a85b
 
 3. You can find descriptions of all required and optional fields in copperegg/resources/probe.rb.
 4. Refer to the Probe section of the CopperEgg API for further details:  [CopperEgg Probe API](http://dev.copperegg.com/revealuptime/probes.html)
@@ -67,6 +78,13 @@ Creating and managing website and port probes
 
 Creating Annotations in the CopperEgg UI for chef run events.
 =====
+<<<<<<< HEAD
+1. The CopperEgg Cookbook includes integration with the Chef Report and Exception Handlers. To enable this functionality:
+* include the chef_handler cookbook from Opscode in your chef repo, and in your run list.
+* include the recipe copperegg-handler.rb in your run list. That's it!
+* By default, each chef run will create a annotation at copperegg only when the chef run fails.
+* You can change this behavior by changing the [:copperegg][:annotate_chefrun_success] and [:copperegg][:annotate_chefrun_fail] attributes.
+=======
 The CopperEgg Cookbook includes integration with the Chef Report and Exception
 Handlers. To enable this functionality choose one of the following:
 * Include the recipe copperegg-handler.rb in your run_list, or
@@ -78,6 +96,7 @@ That's it!
 Note:
 * By default, each chef run will create an annotation at copperegg only when the chef run fails.
 * You can change this behavior by changing the [:copperegg][:annotate_chefrun_success] and [:copperegg][:annotate_chefrun_fail] attributes in the default attributes file or by overriding them in your application cookbook.
+>>>>>>> b869ba007c92b827d3731b0cefd138e2c324a85b
 
 
 Links
