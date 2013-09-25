@@ -151,7 +151,7 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     end
   end
   
-  if node['copperegg']['shutdown_hook'] do
+  if node['copperegg']['shutdown_hook']
     template '/usr/local/revealcloud/shutdown.sh' do
       mode   '0755'
       source 'shutdown.sh.erb'
