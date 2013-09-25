@@ -31,6 +31,7 @@ Attributes
 * `default[:copperegg][:include_env_astag]` = Propagate the Chef environment to a CopperEgg tag. Default true.
 * `default[:copperegg][:annotate_chefrun_success]` = Send CopperEgg an annotation for each successful chef run. Default false.
 * `default[:copperegg][:annotate_chefrun_fail]` = Send CopperEgg an annotation for each failed chef run. Default true.
+* `default["copperegg"][:shutdown_hook]` = Removes or Hides instance from CopperEgg on shutdown. [See blog post here](http://copperegg.com/hooking-into-the-aws-shutdown-flow/) 
 
 
 Usage
