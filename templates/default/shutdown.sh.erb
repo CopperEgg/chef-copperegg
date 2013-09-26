@@ -1,0 +1,14 @@
+#!/bin/bash -x
+
+apisrv='api.copperegg.com'
+apikey='<%= node["copperegg"]["apikey"] %>'
+
+# Remove the system:
+/usr/local/revealcloud/revealcloud -k ${apikey} -R -m -a ${apisrv}
+
+# Optional: Hide rather than remove the system
+# uuid=`/usr/local/revealcloud/revealcloud -L -xk ${apikey} -E -m -x 2>&1 | \
+# egrep 'Success' | egrep -o '[0-9a-f]{32}'`
+# curl -s -k -u ${apikey}:U -XPOST https://${apisrv}/v2/revealcloud/uuids/${uuid}/hide.json
+
+/sbin/poweroff -p

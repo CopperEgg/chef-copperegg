@@ -73,3 +73,7 @@ default[:copperegg][:remove_on_uninstall] = false
 
 # Create an external SSH probe for this node.
 default[:copperegg][:create_sshprobe] = false
+
+# Flag to enable or disable AWS shutdown hook
+# See http://copperegg.com/hooking-into-the-aws-shutdown-flow/
+default[:copperegg][:shutdown_hook] = false

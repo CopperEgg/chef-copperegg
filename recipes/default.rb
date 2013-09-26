@@ -87,6 +87,7 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     block do
       @cuegg = CopperEgg::API.new(node['copperegg']['apikey'],'nix_collector')
       rslt = @cuegg.get_collector_state(node.default['copperegg']['template_updated'])
+      log rslt
       node.default['copperegg']['must_restart'] = rslt
     end
   end
@@ -148,6 +149,20 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
       probe_dest pd
       type 'TCP'
       tags tag_array
+    end
+  end
+  
+  if node['copperegg']['shutdown_hook']
+    template '/usr/local/revealcloud/shutdown.sh' do
+      mode   '0755'
+      source 'shutdown.sh.erb'
+      notifies :run, "execute[link shutdown script]", :immediately
+    end
+  
+    execute "link shutdown script" do
+      cwd '/usr/local/revealcloud/'
+      command "sysctl -w kernel.poweroff_cmd=/usr/local/revealcloud/shutdown.sh"
+      action :nothing
     end
   end
 end
