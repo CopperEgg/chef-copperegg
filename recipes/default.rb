@@ -87,6 +87,7 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     block do
       @cuegg = CopperEgg::API.new(node['copperegg']['apikey'],'nix_collector')
       rslt = @cuegg.get_collector_state(node.default['copperegg']['template_updated'])
+      log rslt
       node.default['copperegg']['must_restart'] = rslt
     end
   end
