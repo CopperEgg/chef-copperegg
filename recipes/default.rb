@@ -150,5 +150,21 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
       tags tag_array
     end
   end
+  
+  if node['copperegg']['shutdown_hook']
+    template '/usr/local/revealcloud/shutdown.sh' do
+      mode   '0755'
+      source 'shutdown.sh.erb'
+      notifies :run, "execute[link shutdown script]", :immediately
+      variables(
+        :apikey => node[:copperegg][:apikey]
+      )
+    end
+  
+    execute "link shutdown script" do
+      command "sysctl -w kernel.poweroff_cmd=/usr/local/revealcloud/shutdown.sh"
+      action :nothing
+    end
+  end
 end
 
