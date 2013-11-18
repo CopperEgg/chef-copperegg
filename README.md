@@ -5,6 +5,9 @@ Chef Cookbook for CopperEgg services
 
 Recent Updates
 ============
+Version 0.2.3   Released November 18, 2013
+This release fixes the idempotence issue: namely, the collector re-installing every chef run.
+
 Version 0.2.2   Released July 11, 2013
 This release fixes the problem of 'Cookbook Annotations do not work for omnibus install', reported both as an issue in GitHub, and on our support site.
 
@@ -109,6 +112,7 @@ Links
 License and Author
 ==================
 Authors:: Ross Dickey, Scott Johnson
+With Contributions from Drew Oliner (https://github.com/Drewzar)
 
 (The MIT License)
 
