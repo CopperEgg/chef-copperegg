@@ -59,7 +59,7 @@ module CopperEgg
         collver.chomp!
       end
       `curl -sk https://#{@apikey}:U@api.copperegg.com/chef.sh  > /tmp/chef.sh`
-      installer_ver = `grep URL_LINUX_64 /tmp/chef.sh -m 1 | cut -d '/' -f6`
+      installer_ver = `grep URL_LINUX_64 /tmp/chef.sh -m 1 | cut -d '/' -f5`
       installer_ver.chomp!
       if (updated == true) 
         if (rundir == true)
