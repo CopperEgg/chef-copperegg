@@ -61,7 +61,10 @@ module CopperEgg
       `curl -sk https://#{@apikey}:U@api.copperegg.com/chef.sh  > /tmp/chef.sh`
       installer_ver = `grep URL_LINUX_64 /tmp/chef.sh -m 1 | cut -d '/' -f5`
       installer_ver.chomp!
-      if (updated == true) 
+      if (installer_ver.empty?)
+        Chef::Log.warn "Could not get installer version from the API...skipping check"
+        rslt = false 
+      elsif (updated == true) 
         if (rundir == true)
           self.uninstall_collector()
         end
