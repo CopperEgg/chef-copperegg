@@ -186,7 +186,8 @@ module CopperEgg
     private
 
     def api_request(http_method, resource, body=nil)
-      attempts = 2
+      attempts = 3
+      exception_try_count = 0
       connect_try_count = 0
       if resource == ''
         uri = URI.parse(@api_url)
@@ -213,39 +214,38 @@ module CopperEgg
       request.add_field("Content-Type", "application/json")
       request.basic_auth(@apikey, 'U')
       request.body = body.to_json unless body.nil?
-      
-      begin
-        Timeout::timeout(10) do
-          response = http.request(request)
-          response_code = response.code.to_i
+      while connect_try_count < attempts
+        begin
+          Timeout::timeout(10) do
+            response = http.request(request)
+            response_code = response.code.to_i
  
-          case response_code
-
-          when 200
-            if @ignore_result == true
-              return 200
+            case response_code
+            when 200
+              if @ignore_result == true
+                return 200
+              end
+              response_body = valid_json?(response.body)
+              if response_body == nil
+                raise "CopperEgg::API invalid JSON response ... #{request}  #{request_uri}" 
+                return nil
+              else
+                return response_body
+              end
             end
-            response_body = valid_json?(response.body)
-            if response_body == nil
-              raise "CopperEgg::API invalid JSON response ... #{request}  #{request_uri}" 
-              return nil
-            end
-          else
-            raise "CopperEgg::API http error #{response_code} ... #{request}  #{request_uri}" 
+          end
+        rescue Timeout::Error
+          exception_try_count += 1
+          if exception_try_count > attempts
+            raise "CopperEgg::API timeout ... #{request}  #{request_uri}" 
             return nil
           end
-          return response_body
+          sleep 0.5
+        retry
         end
-      rescue Timeout::Error
         connect_try_count += 1
-        if connect_try_count > attempts
-          raise "CopperEgg::API timeout ... #{request}  #{request_uri}" 
-          return nil
-        end
         sleep 0.5
-      retry
       end
     end
-
   end
 end

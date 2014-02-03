@@ -5,6 +5,9 @@ Chef Cookbook for CopperEgg services
 
 Recent Updates
 ============
+Version 0.2.4    Released February 2, 2014
+Added better retry handling on http Get
+
 Version 0.2.3   Released November 18, 2013
 This release fixes the idempotence issue: namely, the collector re-installing every chef run.
 
