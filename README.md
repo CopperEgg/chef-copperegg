@@ -5,6 +5,9 @@ Chef Cookbook for CopperEgg services
 
 Recent Updates
 ============
+Version 0.2.5    Released March 10, 2014
+Simplified exception handling, and increased retries for HTTP Get. 
+
 Version 0.2.4    Released February 2, 2014
 Added better retry handling on http Get
 
@@ -106,7 +109,7 @@ With Contributions from Drew Oliner (https://github.com/Drewzar)
 
 (The MIT License)
 
-Copyright © 2013 [CopperEgg Corporation](http://copperegg.com)
+Copyright © 2013,2014 [CopperEgg Corporation](http://copperegg.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
