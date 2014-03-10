@@ -182,11 +182,10 @@ module CopperEgg
       return nil
     end
 
-
     private
 
     def api_request(http_method, resource, body=nil)
-      attempts = 3
+      attempts = 120
       exception_try_count = 0
       connect_try_count = 0
       if resource == ''
@@ -214,38 +213,48 @@ module CopperEgg
       request.add_field("Content-Type", "application/json")
       request.basic_auth(@apikey, 'U')
       request.body = body.to_json unless body.nil?
+
       while connect_try_count < attempts
         begin
-          Timeout::timeout(10) do
-            response = http.request(request)
-            response_code = response.code.to_i
- 
-            case response_code
-            when 200
-              if @ignore_result == true
-                return 200
-              end
-              response_body = valid_json?(response.body)
-              if response_body == nil
-                raise "CopperEgg::API invalid JSON response ... #{request}  #{request_uri}" 
-                return nil
-              else
-                return response_body
-              end
+          response = http.request(request)
+          response_code = response.code.to_i
+
+          case response_code
+          when 200
+            if @ignore_result == true
+              return 200
+            end
+            response_body = valid_json?(response.body)
+            if response_body == nil
+              raise "CopperEgg::API invalid JSON response ... #{request}  #{request_uri}" 
+              return nil
+            else
+              return response_body
             end
           end
-        rescue Timeout::Error
+        rescue Exception => e
           exception_try_count += 1
           if exception_try_count > attempts
-            raise "CopperEgg::API timeout ... #{request}  #{request_uri}" 
+            #log "#{e.inspect}"
+            raise "CopperEgg::API #{e} ... #{exception_try_count} retries: #{request}  #{request_uri}" 
             return nil
+          else
+            if $verbose == true
+              puts "\nGet: exception: retrying\n"
+            end
+            sleep 0.5
           end
-          sleep 0.5
         retry
-        end
+        end  # of begin rescue end
         connect_try_count += 1
-        sleep 0.5
+        if $verbose == true
+          puts "Retrying\n"
+        end
+        sleep 1.0
       end
+#     need to fail here
+      raise "CopperEgg::API ... exceeded #{connect_try_count} retries: #{request}  #{request_uri}" 
+      return nil
     end
   end
 end
