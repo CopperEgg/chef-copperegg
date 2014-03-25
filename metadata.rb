@@ -4,7 +4,7 @@ maintainer_email "support@copperegg.com"
 license          "MIT"
 description      "Installs/Configures CopperEgg services"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.2.5"
+version          "0.2.6"
 
 depends 'chef_handler', '> 1.0.0'
 

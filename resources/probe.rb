@@ -31,6 +31,7 @@ attribute :tags, :kind_of => [NilClass,Array]
 attribute :probe_data, :kind_of => [NilClass,String]
 attribute :checkcontents, :kind_of => [NilClass,String]
 attribute :contentmatch, :kind_of => [NilClass,String]
+attribute :headers, :kind_of => [NilClass,Hash]
 
 attr_accessor :exists   # set when the resource has already been created
 

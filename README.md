@@ -5,8 +5,11 @@ Chef Cookbook for CopperEgg services
 
 Recent Updates
 ============
+Version 0.2.6    Released ???
+Added support for specifying probe headers.
+
 Version 0.2.5    Released March 10, 2014
-Simplified exception handling, and increased retries for HTTP Get. 
+Simplified exception handling, and increased retries for HTTP Get.
 
 Version 0.2.4    Released February 2, 2014
 Added better retry handling on http Get
