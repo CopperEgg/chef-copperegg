@@ -3,7 +3,7 @@ maintainer       "CopperEgg, Inc."
 maintainer_email "support@copperegg.com"
 license          "MIT"
 description      "Installs/Configures CopperEgg services"
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'), encoding: 'utf-8')
 version          "0.2.5"
 
 depends 'chef_handler', '> 1.0.0'
