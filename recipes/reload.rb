@@ -1,7 +1,7 @@
 # Cookbook Name:: copperegg
 # Recipe:: reload.rb
 #
-# Copyright 2013 CopperEgg
+# Copyright 2013 IDERA
 # License:: MIT License
 #
 #   The reload recipe should be inserted into your run list immediately before your copperegg recipe.

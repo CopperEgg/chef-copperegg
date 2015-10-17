@@ -2,7 +2,7 @@
 # Cookbook Name:: copperegg
 # # Attributes :: default
 #
-# Copyright 2013 CopperEgg
+# Copyright 2013 IDERA
 # License:: MIT License
 #
 
@@ -50,22 +50,22 @@ default[:copperegg][:oom_protect] = false
 # Flag for using the fqdn as the uuid
 # Can be overridden at the node level.
 # true  => Agent will be started with -U node.fqdn
-# false => Default.  Recommended. CopperEgg will create a uuid.
+# false => Default.  Recommended. Uptime Cloud Monitor will create a uuid.
 default[:copperegg][:use_fqdn] = false
 
-# Tags on the chef node will become tags in the CopperEgg system. 
+# Tags on the chef node will become tags in the Uptime Cloud Monitor system.
 default[:copperegg][:include_chef_tags] = true
 
-# The role or roles assigned to your node will will become CopperEgg tags
+# The role or roles assigned to your node will will become Uptime Cloud Monitor tags
 default[:copperegg][:include_roles_astags] = true
 
-# The environment this node lives in will become a CopperEgg tag.
+# The environment this node lives in will become a Uptime Cloud Monitor tag.
 default[:copperegg][:include_env_astag] = true
 
-# Send CopperEgg an annotation for each successful chef run
+# Send Uptime Cloud Monitor an annotation for each successful chef run
 default[:copperegg][:annotate_chefrun_success] = false
 
-# Send CopperEgg an annotation for each failed chef run
+# Send Uptime Cloud Monitor an annotation for each failed chef run
 default[:copperegg][:annotate_chefrun_fail] = true
 
 # Remove system on uninstall

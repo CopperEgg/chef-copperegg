@@ -2,7 +2,7 @@
 # Cookbook Name:: copperegg
 # Recipe:: uninstall.rb
 #
-# Copyright 2013 CopperEgg
+# Copyright 2013 IDERA
 #
 #
 if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')

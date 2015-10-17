@@ -1,7 +1,7 @@
-Chef Cookbook for CopperEgg services
+Chef Cookbook for Uptime Cloud Monitor services
 ===========
-* Chef cookbook for the CopperEgg collector agent and website / port probes.
-* Requires a CopperEgg account to use.  [Free trial available](https://app.copperegg.com/signup).
+* Chef cookbook for the Uptime Cloud Monitor collector agent and website / port probes.
+* Requires a Uptime Cloud Monitor account to use.  [Free trial available](https://app.copperegg.com/signup).
 
 Recent Updates
 ============
@@ -29,22 +29,22 @@ Platform
 
 Attributes
 ==========
-* `default[:copperegg][:apikey]` = Your API Key available from the [CopperEgg App Settings Page](https://app.copperegg.com/#settings/site).
+* `default[:copperegg][:apikey]` = Your API Key available from the [Uptime Cloud Monitor App Settings Page](https://app.copperegg.com/#settings/site).
 * `default[:copperegg][:tags]` = A comma separated list of tags to apply.  Optional.  [Manage your tags](https://app.copperegg.com/#revealcloud/tags).
 * `default[:copperegg][:label]` = Label to apply in place of hostname when displaying in the dashboard.  WARNING: If you want the same label applied to multiple systems, you may want to consider tags instead.  This is most useful if you intend a recipe for a single server.  Optional.
 * `default[:copperegg][:oom_protect]` = Flag for determining if the Linux Out Of Memory manager (OOM) should be allowed to kill the RevealCloud process. Default false (allow OOM to kill the process). Optional.
 * `default[:copperegg][:proxy]` = Proxy server required to talk to the revealcloud api servers, such as `myproxy.mycorp.com:8080`.  Optional.  Leave blank unless you know what you are doing.
 * `default[:copperegg][:use_fqdn] = Flag for using the fqdn as the uuid. true  => Agent will be started with -U node.fqdn . Default false. Optional.
-* `default[:copperegg][:include_chef_tags]` = Propagate Chef node tags to CopperEgg tags. Default true.
-* `default[:copperegg][:include_roles_astags]` = Propagate Chef node Roles to CopperEgg tags. Default true.
-* `default[:copperegg][:include_env_astag]` = Propagate the Chef environment to a CopperEgg tag. Default true.
-* `default[:copperegg][:annotate_chefrun_success]` = Send CopperEgg an annotation for each successful chef run. Default false.
-* `default[:copperegg][:annotate_chefrun_fail]` = Send CopperEgg an annotation for each failed chef run. Default true.
+* `default[:copperegg][:include_chef_tags]` = Propagate Chef node tags to Uptime Cloud Monitor tags. Default true.
+* `default[:copperegg][:include_roles_astags]` = Propagate Chef node Roles to Uptime Cloud Monitor tags. Default true.
+* `default[:copperegg][:include_env_astag]` = Propagate the Chef environment to a Uptime Cloud Monitor tag. Default true.
+* `default[:copperegg][:annotate_chefrun_success]` = Send Uptime Cloud Monitor an annotation for each successful chef run. Default false.
+* `default[:copperegg][:annotate_chefrun_fail]` = Send Uptime Cloud Monitor an annotation for each failed chef run. Default true.
 
 
 Usage
 =====
-1. Download the CopperEgg cookbook into your `chef-repo/cookbooks/copperegg` directory: (the cookbook directory name must be copperegg)
+1. Download the Uptime Cloud Monitor cookbook into your `chef-repo/cookbooks/copperegg` directory: (the cookbook directory name must be copperegg)
 * `git clone https://github.com/CopperEgg/chef-copperegg.git ./copperegg`, or
 *  manually download from the Opscode community site `http://community.opscode.com/cookbooks/copperegg`, or
 * `knife cookbook site download copperegg`
@@ -61,7 +61,8 @@ Usage
 
 Creating and managing website and port probes
 =====
-1. The CopperEgg Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of CopperEgg probes.
+1. The Uptime Cloud Monitor Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of
+Uptime Cloud Monitor probes.
 2. To create a copperegg probe, you need to include something similar to the following example:
 
 ```ruby
@@ -77,12 +78,12 @@ Creating and managing website and port probes
 ```  
 
 3. You can find descriptions of all required and optional fields in copperegg/resources/probe.rb.
-4. Refer to the Probe section of the CopperEgg API for further details:  [CopperEgg Probe API](http://dev.copperegg.com/revealuptime/probes.html)
+4. Refer to the Probe section of the Uptime Cloud Monitor API for further details:  [Uptime Cloud Monitor Probe API](http://dev.copperegg.com/revealuptime/probes.html)
 
 
-Creating Annotations in the CopperEgg UI for chef run events.
+Creating Annotations in the Uptime Cloud Monitor UI for chef run events.
 =====
-The CopperEgg Cookbook includes integration with the Chef Report and Exception
+The Uptime Cloud Monitor Cookbook includes integration with the Chef Report and Exception
 Handlers. To enable this functionality choose one of the following:
 * Include the recipe copperegg-handler.rb in your run_list, or
 * Include the recipe copperegg-handler in your application cookbook with
@@ -97,9 +98,9 @@ Note:
 
 Links
 =====
-* [CopperEgg Homepage](http://www.copperegg.com)
-* [CopperEgg Signup](https://app.copperegg.com/signup)
-* [CopperEgg Login](https://app.copperegg.com/login)
+* [Uptime Cloud Monitor Homepage](https://www.idera.com/infrastructure-monitoring-as-a-service/)
+* [Uptime Cloud Monitor Signup](https://app.copperegg.com/signup)
+* [Uptime Cloud Monitor Login](https://app.copperegg.com/login)
 
 
 License and Author
@@ -109,7 +110,7 @@ With Contributions from Drew Oliner (https://github.com/Drewzar)
 
 (The MIT License)
 
-Copyright © 2013,2014 [CopperEgg Corporation](http://copperegg.com)
+Copyright © 2013,2014 [IDERA](http://idera.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

@@ -2,7 +2,7 @@
 # Cookbook Name:: copperegg
 # Recipe:: stop
 #
-# Copyright 2013 CopperEgg
+# Copyright 2013 IDERA
 # License:: MIT License
 #
 if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')

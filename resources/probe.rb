@@ -2,7 +2,7 @@
 # Cookbook Name:: copperegg
 # Resource:: probe
 #
-# Copyright 2012, 2013 CopperEgg Corporation
+# Copyright 2012, 2013 Uptime Cloud Monitor Corporation
 # License:: MIT License
 #
 
