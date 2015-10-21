@@ -2,7 +2,7 @@
 # Cookbook Name:: copperegg
 # Recipe:: restart
 #
-# Copyright 2013 CopperEgg
+# Copyright 2013 IDERA
 # License:: MIT License
 #
 

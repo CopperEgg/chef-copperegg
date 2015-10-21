@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: CopperEgg
+# Cookbook Name:: Uptime Cloud Monitor
 # Library:: copperegg_lib
 #
-# Copyright 2012,2013 CopperEgg Corp
+# Copyright 2012,2013 IDERA
 # License:: MIT License
 #
 #
@@ -23,7 +23,7 @@ module CopperEgg
       when 'nix_collector'
         @api_url = ''
       else
-        raise "CopperEgg::API invalid resource_type : #{resource_type}" 
+        raise "Uptime Cloud Monitor::API invalid resource_type : #{resource_type}"
         return nil
       end
       @resource_type = resource_type
@@ -226,7 +226,7 @@ module CopperEgg
             end
             response_body = valid_json?(response.body)
             if response_body == nil
-              raise "CopperEgg::API invalid JSON response ... #{request}  #{request_uri}"
+              raise "Uptime Cloud Monitor::API invalid JSON response ... #{request}  #{request_uri}"
             else
               return response_body
             end
@@ -235,7 +235,7 @@ module CopperEgg
           exception_try_count += 1
           if exception_try_count > attempts
             #log "#{e.inspect}"
-            raise "CopperEgg::API #{e} ... #{exception_try_count} retries: #{request}  #{request_uri}"
+            raise "Uptime Cloud Monitor::API #{e} ... #{exception_try_count} retries: #{request}  #{request_uri}"
           else
             if $verbose == true
               puts "\nGet: exception: retrying\n"
@@ -251,7 +251,7 @@ module CopperEgg
         sleep 1.0
       end
 #     need to fail here
-      raise "CopperEgg::API ... exceeded #{connect_try_count} retries: #{request}  #{request_uri}"
+      raise "Uptime Cloud Monitor::API ... exceeded #{connect_try_count} retries: #{request}  #{request_uri}"
     end
   end
 end
