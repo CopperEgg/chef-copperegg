@@ -39,7 +39,8 @@ action :update do
                   'tags' => @new_resource.tags,
                   'probe_data' => @new_resource.probe_data,
                   'checkcontents' => @new_resource.checkcontents,
-                  'contentmatch' => @new_resource.contentmatch   } 
+                  'contentmatch' => @new_resource.contentmatch,
+                  'headers' => @new_resource.headers }
         @cuegg.update_probe(@current_resource.probe_id, params)
       rescue => error
         Chef::Log.warn(error.to_s)
@@ -59,7 +60,8 @@ action :update do
                   'tags' => @new_resource.tags,
                   'probe_data' => @new_resource.probe_data,
                   'checkcontents' => @new_resource.checkcontents,
-                  'contentmatch' => @new_resource.contentmatch   } 
+                  'contentmatch' => @new_resource.contentmatch,
+                  'headers' => @new_resource.headers }
         probehash = @cuegg.create_probe(@new_resource.probe_desc, params )
         Chef::Log.info "probehash returned #{probehash.inspect}"
         if probehash != nil
