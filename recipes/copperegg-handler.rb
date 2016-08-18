@@ -7,7 +7,6 @@
 #
 include_recipe 'chef_handler'
 
-
 # When running on Chef versions below 10.10, we have to use the gem_package workaround to install our handler,
 # as chef_gem was not introduced until 10.10.
 # See http://www.opscode.com/blog/2009/06/01/cool-chef-tricks-install-and-use-rubygems-in-a-chef-run/
@@ -29,7 +28,6 @@ if node.attribute?('ec2') && node.ec2.attribute?('instance_id')
   hostname = hostname + ' (' + node['ec2']['instance_id'] + ')'
 end
 
-
 chef_handler 'Chef::Handler::Copperegg' do
   arguments ['apikey' => node['copperegg']['apikey'],
             'annotate_success' => node['copperegg']['annotate_chefrun_success'],
@@ -40,4 +38,3 @@ chef_handler 'Chef::Handler::Copperegg' do
   supports :report => true, :exception => true
   action :nothing
 end.run_action(:enable)
-

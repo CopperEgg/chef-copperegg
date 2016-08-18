@@ -21,7 +21,7 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
       rslt = @cuegg.uninstall_collector()
     end
     action :nothing
-    notifies :create, "ruby_block[remove reload-linux]", :immediately 
+    notifies :create, "ruby_block[remove reload-linux]", :immediately
   end
 
   service 'revealcloud' do

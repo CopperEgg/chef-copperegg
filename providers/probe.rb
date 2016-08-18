@@ -39,7 +39,7 @@ action :update do
                   'tags' => @new_resource.tags,
                   'probe_data' => @new_resource.probe_data,
                   'checkcontents' => @new_resource.checkcontents,
-                  'contentmatch' => @new_resource.contentmatch   } 
+                  'contentmatch' => @new_resource.contentmatch   }
         @cuegg.update_probe(@current_resource.probe_id, params)
       rescue => error
         Chef::Log.warn(error.to_s)
@@ -59,7 +59,7 @@ action :update do
                   'tags' => @new_resource.tags,
                   'probe_data' => @new_resource.probe_data,
                   'checkcontents' => @new_resource.checkcontents,
-                  'contentmatch' => @new_resource.contentmatch   } 
+                  'contentmatch' => @new_resource.contentmatch   }
         probehash = @cuegg.create_probe(@new_resource.probe_desc, params )
         Chef::Log.info "probehash returned #{probehash.inspect}"
         if probehash != nil
@@ -72,8 +72,8 @@ action :update do
               parray << probe_id
               node.normal['copperegg']['myprobes'] = parray
             end
-          end 
-        end           
+          end
+        end
       rescue => error
         Chef::Log.warn(error.to_s)
       end
@@ -125,13 +125,3 @@ action :disable do
     Chef::Log.info "#{ @current_resource } doesn't exist - can't disable."
   end
 end
-
-
-
-
-
-
-
-
-
-
