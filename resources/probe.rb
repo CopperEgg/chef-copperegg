@@ -38,7 +38,3 @@ def initialize(*args)
   super
   @action = :create
 end
-
-
-
-

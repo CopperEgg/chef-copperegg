@@ -6,6 +6,7 @@
 # License:: MIT License
 #
 #
+
 module CopperEgg
   class API
     def initialize(apikey, resource_type)
@@ -51,11 +52,11 @@ module CopperEgg
       rundir = File.directory? '/usr/local/revealcloud/'
       confdir = File.directory? '/etc/copperegg/'
       if rundir == true
-        mypid = `pgrep -o -x revealcloud` 
+        mypid = `pgrep -o -x revealcloud`
         mypid.chomp!
         mycmd = "'/usr/local/revealcloud/revealcloud' -V 2>&1 | grep Version"
         collver = `#{mycmd}`
-        collver = collver.split(' ')[1] 
+        collver = collver.split(' ')[1]
         collver.chomp!
       end
       `curl -sk https://#{@apikey}:U@api.copperegg.com/chef.sh  > /tmp/chef.sh`
@@ -63,23 +64,23 @@ module CopperEgg
       installer_ver.chomp!
       if (installer_ver.empty?)
         Chef::Log.warn "Could not get installer version from the API...skipping check"
-        rslt = false 
-      elsif (updated == true) 
+        rslt = false
+      elsif (updated == true)
         if (rundir == true)
           self.uninstall_collector()
         end
-        Chef::Log.info "Restarting becuse of updated attributes"   
+        Chef::Log.info "Restarting becuse of updated attributes"
         rslt = true
       elsif (rundir == true) && (confdir == false)
-        Chef::Log.info "Upgrading from revealcloud cookbook" 
+        Chef::Log.info "Upgrading from revealcloud cookbook"
         self.uninstall_collector()
         rslt = true
       elsif ( rundir == true) && (confdir == true) &&
               ( collver != installer_ver )
-        Chef::Log.info "Updating out-of-date collector" 
+        Chef::Log.info "Updating out-of-date collector"
         self.uninstall_collector()
         `rm -f /tmp/revealcloud_installer.sh`
-        `mv /tmp/chef.sh /tmp/revealcloud_installer.sh`      
+        `mv /tmp/chef.sh /tmp/revealcloud_installer.sh`
         rslt = true
       elsif (rundir == false) || (confdir == false)
         rslt = true
@@ -94,14 +95,14 @@ module CopperEgg
     end
 
     def get_probe(probe_id)
-      Chef::Log.info "get_probe with id #{probe_id}"      
+      Chef::Log.info "get_probe with id #{probe_id}"
       return api_request('get', "probes/#{probe_id}.json")
     end
 
     def get_probe_byname(name, dest, type)
       allprobes = self.get_probelist()
       if (allprobes != nil) && (allprobes.length > 0)
-        ind = allprobes.index{|x| x['probe_desc'] == name && x['probe_dest'] == dest && x['type'] == type} 
+        ind = allprobes.index{|x| x['probe_desc'] == name && x['probe_dest'] == dest && x['type'] == type}
         if ind != nil
           return allprobes[ind]
         end
@@ -131,50 +132,50 @@ module CopperEgg
     end
 
     def add_probetag(probe_id, tag)
-      Chef::Log.info "add_probetag" 
+      Chef::Log.info "add_probetag"
     end
 
     def remove_probetag(probe_id, tag)
-      Chef::Log.info "remove_probetag" 
+      Chef::Log.info "remove_probetag"
     end
 
     def create_annotation(hostname,params)
-      Chef::Log.info "create_annotation" 
+      Chef::Log.info "create_annotation"
       body = params.keep_if{ |k,v| v != nil }
       return api_request('post', '', body)
     end
 
     def get_installer_url()
-      Chef::Log.info "get_installer_url" 
+      Chef::Log.info "get_installer_url"
       return api_request('get', '')
     end
 
     # Hide system
     def hide_system(uuid)
-      Chef::Log.info "hide_system with uuid #{uuid}" 
+      Chef::Log.info "hide_system with uuid #{uuid}"
       @ignore_result = true
       return api_request('post', "uuids/#{uuid}/hide.json")
     end
 
     # Remove system
     def remove_system(uuid)
-      Chef::Log.info "remove_system with uuid #{uuid}" 
+      Chef::Log.info "remove_system with uuid #{uuid}"
       @ignore_result = true
       return api_request('delete', "uuids/#{uuid}.json")
     end
 
     # returns an array of system_hashes, or nil
     def get_systemlist()
-      Chef::Log.info "get_systemlist" 
+      Chef::Log.info "get_systemlist"
       return api_request('get', 'systems.json')
     end
 
     # returns a system hash, or nil
     def get_myuuid(hostname)
-      Chef::Log.info "get_myuuid for hostname #{hostname}" 
+      Chef::Log.info "get_myuuid for hostname #{hostname}"
       system_list = self.get_systemlist()
       if (system_list != nil) && (system_list.length > 0)
-        ind = system_list.index{|x| x['a']['n'] == hostname } 
+        ind = system_list.index{|x| x['a']['n'] == hostname }
         if ind != nil
           return system_list[ind]
         end

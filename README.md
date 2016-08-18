@@ -3,24 +3,16 @@ Chef Cookbook for Uptime Cloud Monitor services
 * Chef cookbook for the Uptime Cloud Monitor collector agent and website / port probes.
 * Requires a Uptime Cloud Monitor account to use.  [Free trial available](https://app.copperegg.com/signup).
 
-Recent Updates
-============
-Version 0.2.5    Released March 10, 2014
-Simplified exception handling, and increased retries for HTTP Get. 
-
-Version 0.2.4    Released February 2, 2014
-Added better retry handling on http Get
-
-Version 0.2.3   Released November 18, 2013
-This release fixes the idempotence issue: namely, the collector re-installing every chef run.
-
-Version 0.2.2   Released July 11, 2013
-This release fixes the problem of 'Cookbook Annotations do not work for omnibus install', reported both as an issue in GitHub, and on our support site.
-
-
 Requirements
 ============
 Chef 10 and up.
+
+The following cookbooks are direct dependencies because they're used for common "default" functionality.
+* curl(for copperegg::default)
+
+The following cookbooks are direct dependencies
+* On RHEL family distros, `recipe[yum::epel]` might be required.
+* On Ubuntu, recipe[apt::default] might be required to install curl.
 
 Platform
 ========
@@ -50,6 +42,7 @@ Usage
 * `knife cookbook site download copperegg`
 2. Set your apikey as described in the `Attributes` section.
 * edit `copperegg/attributes/default.rb` and change YOUR_USER_API_KEY to be correct.
+* or override `node[:copperegg][:apikey]` within role or enviromnet.
 3. Set any other optional attributes described above, as desired.
 4. Upload the cookbook to your chef server or hosted chef:
 * `knife cookbook upload -a -o copperegg`
@@ -61,8 +54,7 @@ Usage
 
 Creating and managing website and port probes
 =====
-1. The Uptime Cloud Monitor Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of
-Uptime Cloud Monitor probes.
+1. The Uptime Cloud Monitor Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of Uptime Cloud Monitor probes.
 2. To create a copperegg probe, you need to include something similar to the following example:
 
 ```ruby
@@ -74,8 +66,8 @@ Uptime Cloud Monitor probes.
     type 'GET'                            # the test type; in this case, an HTTP GET request
     stations ['dal','nrk']                # override the defaults and specify testing from Dallas and Fremont
     tags ["production",'load_balancer']   # The tags to apply to this probe
-  end 
-```  
+  end
+```
 
 3. You can find descriptions of all required and optional fields in copperegg/resources/probe.rb.
 4. Refer to the Probe section of the Uptime Cloud Monitor API for further details:  [Uptime Cloud Monitor Probe API](http://dev.copperegg.com/revealuptime/probes.html)

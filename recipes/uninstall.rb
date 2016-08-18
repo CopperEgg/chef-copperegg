@@ -5,6 +5,7 @@
 # Copyright 2013 IDERA
 #
 #
+
 if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
   service 'revealcloud' do
     action :stop
@@ -40,7 +41,7 @@ end
 ruby_block 'hide_system' do
   block do
     @cuegg = CopperEgg::API.new(node['copperegg']['apikey'],'system')
-    myhash = Hash.new  
+    myhash = Hash.new
     myhash = @cuegg.get_myuuid(node['hostname'])
     if myhash != nil
       if node['copperegg']['remove_on_uninstall'] == true
@@ -51,7 +52,7 @@ ruby_block 'hide_system' do
     else
       Chef::Log.info "UUID not found for hostname #{node['hostname']}"
     end
-   action :nothing 
+   action :nothing
   end
 end
 
@@ -70,7 +71,6 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     end
   end
 end
-
 
 # Remove this role from the run_list after a the new server is built.
 ruby_block 'remove uninstall recipe' do
