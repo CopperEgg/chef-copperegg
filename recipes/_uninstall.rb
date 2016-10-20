@@ -1,12 +1,16 @@
 #
 # Cookbook Name:: copperegg
-# Recipe:: uninstall.rb
+# Recipe:: _uninstall
 #
-# Copyright 2013 IDERA
-#
+# Copyright 2013-2016 IDERA
+# License:: MIT License
 #
 
-if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
+is_windows = (node['platform_family'] == 'windows')
+apikey = node['copperegg']['apikey']
+copperegg_url = node['copperegg']['url']
+
+unless is_windows
   service 'revealcloud' do
     action :stop
     notifies :run, "script[revealcloud_uninstall]", :immediately
@@ -17,7 +21,7 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     cwd
     user 'root'
     code <<-EOH
-        curl http://#{node['copperegg']['apikey']}@api.copperegg.com/rc_rm.sh  > /tmp/revealcloud_uninstaller.sh
+        curl http://#{apikey}@#{copperegg_url}/rc_rm.sh  > /tmp/revealcloud_uninstaller.sh
         chmod +x /tmp/revealcloud_uninstaller.sh
         rm -rf /etc/copperegg/
         /tmp/revealcloud_uninstaller.sh
@@ -26,7 +30,7 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
     notifies :create, "ruby_block[hide_system]", :delayed
   end
 
-elsif platform?('windows')
+else
   service 'RevealCloud' do
     action :stop
   end
@@ -40,10 +44,9 @@ end
 # Hide the system (CopperEgg api call)
 ruby_block 'hide_system' do
   block do
-    @cuegg = CopperEgg::API.new(node['copperegg']['apikey'],'system')
-    myhash = Hash.new
+    @cuegg = CopperEgg::API.new(apikey, 'system')
     myhash = @cuegg.get_myuuid(node['hostname'])
-    if myhash != nil
+    if myhash
       if node['copperegg']['remove_on_uninstall'] == true
         rslt = @cuegg.remove_system(myhash['uuid'])
       else
@@ -57,7 +60,7 @@ ruby_block 'hide_system' do
 end
 
 # remove the automatic ssh probe, if enabled
-if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
+unless is_windows
   if node['copperegg']['create_sshprobe'] && node.attribute?('ec2') && node.attribute.ec2.attribute?('public_hostname')
     hn = "CheckPort22_#{node['hostname']}"
     pd = "#{node['ec2']['public_hostname']}:22"
@@ -70,9 +73,4 @@ if platform?('redhat', 'centos', 'fedora', 'ubuntu', 'debian', 'amazon')
       type 'TCP'
     end
   end
-end
-
-# Remove this role from the run_list after a the new server is built.
-ruby_block 'remove uninstall recipe' do
-  block {node.run_list.remove('recipe[copperegg::uninstall]')}
 end

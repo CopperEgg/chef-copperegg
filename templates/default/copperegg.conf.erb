@@ -2,13 +2,13 @@
 # CopperEgg service defaults
 ##
 
-apikey: <%= node["copperegg"]["apikey"] %>
-tags:  <%= node["copperegg"]["tags"] %>
-label: <%= node["copperegg"]["label"] %>
-oom_protect: <%= node["copperegg"]["oom_protect"] %>
-use_fqdn: <%= node["copperegg"]["use_fqdn"] %>
-alltags: <%= node["copperegg"]["alltags"] %>
-node_fqdn: <%= node["copperegg"]["node_fqdn"] %>
-annotate_success: <%= node["copperegg"]["annotate_chefrun_success"] %>
-annotate_fail: <%= node["copperegg"]["annotate_chefrun_fail"] %>
-create_sshprobe: <%= node["copperegg"]["create_sshprobe"] %>
+apikey: <%= @apikey %>
+tags:  <%= "#{node['copperegg']['tags'].join(',')}" %>
+label: <%= "#{node['copperegg']['label']}" %>
+oom_protect: <%= "#{node['copperegg']['oom_protect']}" %>
+use_fqdn: <%= "#{node['copperegg']['use_fqdn']}" %>
+alltags: <%= "#{node['copperegg']['alltags'].join(',')}" %>
+node_fqdn: <%= "#{node['copperegg']['node_fqdn']}" %>
+annotate_success: <%= "#{node['copperegg']['annotate_chefrun_success']}" %>
+annotate_fail: <%= "#{node['copperegg']['annotate_chefrun_fail']}" %>
+create_sshprobe: <%= "#{node['copperegg']['create_sshprobe']}" %>

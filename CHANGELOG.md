@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of copperegg cookbook.
 
+## 1.0.0 ()
+
+*
+
 ## 0.2.5 (2014-03-10)
 
 * Simplified exception handling, and increased retries for HTTP Get.
