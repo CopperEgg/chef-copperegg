@@ -21,17 +21,17 @@ Platform
 
 Attributes
 ==========
-* `default[:copperegg][:apikey]` = Your API Key available from the [Uptime Cloud Monitor App Settings Page](https://app.copperegg.com/#settings/site).
-* `default[:copperegg][:tags]` = A comma separated list of tags to apply.  Optional.  [Manage your tags](https://app.copperegg.com/#revealcloud/tags).
-* `default[:copperegg][:label]` = Label to apply in place of hostname when displaying in the dashboard.  WARNING: If you want the same label applied to multiple systems, you may want to consider tags instead.  This is most useful if you intend a recipe for a single server.  Optional.
-* `default[:copperegg][:oom_protect]` = Flag for determining if the Linux Out Of Memory manager (OOM) should be allowed to kill the RevealCloud process. Default false (allow OOM to kill the process). Optional.
-* `default[:copperegg][:proxy]` = Proxy server required to talk to the revealcloud api servers, such as `myproxy.mycorp.com:8080`.  Optional.  Leave blank unless you know what you are doing.
-* `default[:copperegg][:use_fqdn] = Flag for using the fqdn as the uuid. true  => Agent will be started with -U node.fqdn . Default false. Optional.
-* `default[:copperegg][:include_chef_tags]` = Propagate Chef node tags to Uptime Cloud Monitor tags. Default true.
-* `default[:copperegg][:include_roles_astags]` = Propagate Chef node Roles to Uptime Cloud Monitor tags. Default true.
-* `default[:copperegg][:include_env_astag]` = Propagate the Chef environment to a Uptime Cloud Monitor tag. Default true.
-* `default[:copperegg][:annotate_chefrun_success]` = Send Uptime Cloud Monitor an annotation for each successful chef run. Default false.
-* `default[:copperegg][:annotate_chefrun_fail]` = Send Uptime Cloud Monitor an annotation for each failed chef run. Default true.
+* `default['copperegg'][:apikey]` = Your API Key available from the [Uptime Cloud Monitor App Settings Page](https://app.copperegg.com/#settings/site).
+* `default['copperegg'][:tags]` = A comma separated list of tags to apply.  Optional.  [Manage your tags](https://app.copperegg.com/#revealcloud/tags).
+* `default['copperegg'][:label]` = Label to apply in place of hostname when displaying in the dashboard.  WARNING: If you want the same label applied to multiple systems, you may want to consider tags instead.  This is most useful if you intend a recipe for a single server.  Optional.
+* `default['copperegg'][:oom_protect]` = Flag for determining if the Linux Out Of Memory manager (OOM) should be allowed to kill the RevealCloud process. Default false (allow OOM to kill the process). Optional.
+* `default['copperegg'][:proxy]` = Proxy server required to talk to the revealcloud api servers, such as `myproxy.mycorp.com:8080`.  Optional.  Leave blank unless you know what you are doing.
+* `default['copperegg'][:use_fqdn] = Flag for using the fqdn as the uuid. true  => Agent will be started with -U node.fqdn . Default false. Optional.
+* `default['copperegg'][:include_node_tags]` = Propagate Chef node tags to Uptime Cloud Monitor tags. Default true.
+* `default['copperegg'][:include_roles_astags]` = Propagate Chef node Roles to Uptime Cloud Monitor tags. Default true.
+* `default['copperegg'][:include_env_astag]` = Propagate the Chef environment to a Uptime Cloud Monitor tag. Default true.
+* `default['copperegg'][:annotate_chefrun_success]` = Send Uptime Cloud Monitor an annotation for each successful chef run. Default false.
+* `default['copperegg'][:annotate_chefrun_fail]` = Send Uptime Cloud Monitor an annotation for each failed chef run. Default true.
 
 
 Usage
@@ -42,7 +42,7 @@ Usage
 * `knife cookbook site download copperegg`
 2. Set your apikey as described in the `Attributes` section.
 * edit `copperegg/attributes/default.rb` and change YOUR_USER_API_KEY to be correct.
-* or override `node[:copperegg][:apikey]` within role or enviromnet.
+* or override `node['copperegg'][:apikey]` within role or enviromnet.
 3. Set any other optional attributes described above, as desired.
 4. Upload the cookbook to your chef server or hosted chef:
 * `knife cookbook upload -a -o copperegg`
@@ -85,7 +85,7 @@ That's it!
 
 Note:
 * By default, each chef run will create an annotation at copperegg only when the chef run fails.
-* You can change this behavior by changing the [:copperegg][:annotate_chefrun_success] and [:copperegg][:annotate_chefrun_fail] attributes in the default attributes file or by overriding them in your application cookbook.
+* You can change this behavior by changing the ['copperegg'][:annotate_chefrun_success] and ['copperegg'][:annotate_chefrun_fail] attributes in the default attributes file or by overriding them in your application cookbook.
 
 
 Links

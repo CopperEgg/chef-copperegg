@@ -10,7 +10,7 @@
 module CopperEgg
   class API
     def initialize(apikey, resource_type)
-      Chef::Log.info "copperegg::api initialize apikey is #{apikey}"
+
       @apikey = apikey
       case resource_type
       when 'probe'
@@ -31,64 +31,52 @@ module CopperEgg
       @ignore_result = false
     end
 
-    def valid_json? json_
+    def valid_json?(json)
       begin
-        JSON.parse(json_)
+        JSON.parse(json)
       rescue Exception => e
-        return nil
+        return false
       end
     end
 
     def uninstall_collector()
+      Chef::Log.warn "Removing Uptime Cloud Monitor collector"
       `curl -sk https://#{@apikey}:U@api.copperegg.com/rc_rm.sh  > /tmp/revealcloud_uninstaller.sh`
       `chmod +x /tmp/revealcloud_uninstaller.sh`
       `/tmp/revealcloud_uninstaller.sh`
     end
 
-    def get_collector_state(updated)
-      rslt = false      # assume install is not necessary
-      mypid = ''
+    def collector_state_latest(updated)
+      rundir = File.directory?('/usr/local/revealcloud')
+      confdir = File.directory?('/etc/copperegg/')
       collver = ''
-      rundir = File.directory? '/usr/local/revealcloud/'
-      confdir = File.directory? '/etc/copperegg/'
-      if rundir == true
-        mypid = `pgrep -o -x revealcloud`
-        mypid.chomp!
-        mycmd = "'/usr/local/revealcloud/revealcloud' -V 2>&1 | grep Version"
-        collver = `#{mycmd}`
-        collver = collver.split(' ')[1]
-        collver.chomp!
-      end
+
+      return true unless rundir
+
+      mycmd = "/usr/local/revealcloud/revealcloud -V 2>&1 | grep Version"
+      collver = `#{mycmd}`
+      collver = collver.split(' ')[1]
+      collver.chomp!
+
       `curl -sk https://#{@apikey}:U@api.copperegg.com/chef.sh  > /tmp/chef.sh`
       installer_ver = `grep URL_LINUX_64 /tmp/chef.sh -m 1 | cut -d '/' -f5`
       installer_ver.chomp!
+
+      Chef::Log.warn " Showing versions :#{installer_ver} :#{collver}- #{updated}"
+
       if (installer_ver.empty?)
-        Chef::Log.warn "Could not get installer version from the API...skipping check"
-        rslt = false
-      elsif (updated == true)
-        if (rundir == true)
-          self.uninstall_collector()
-        end
-        Chef::Log.info "Restarting becuse of updated attributes"
-        rslt = true
-      elsif (rundir == true) && (confdir == false)
-        Chef::Log.info "Upgrading from revealcloud cookbook"
-        self.uninstall_collector()
-        rslt = true
-      elsif ( rundir == true) && (confdir == true) &&
-              ( collver != installer_ver )
-        Chef::Log.info "Updating out-of-date collector"
-        self.uninstall_collector()
-        `rm -f /tmp/revealcloud_installer.sh`
-        `mv /tmp/chef.sh /tmp/revealcloud_installer.sh`
-        rslt = true
-      elsif (rundir == false) || (confdir == false)
-        rslt = true
+        Chef::Log.warn "Could not get installer version from the API...skipping uninstall"
+        return true
       end
-      return rslt
+
+      if(installer_ver==collver)
+        Chef::Log.warn "Already on the latest version"
+        return true
+      end
+      Chef::Log.warn "Your Copperegg Collector is outdated. Updating.."
+      return false
     end
 
-    # returns an array of probe_hashes, or nil
     def get_probelist()
       Chef::Log.info "get_probelist"
       return api_request('get', 'probes.json')
@@ -174,6 +162,7 @@ module CopperEgg
     def get_myuuid(hostname)
       Chef::Log.info "get_myuuid for hostname #{hostname}"
       system_list = self.get_systemlist()
+
       if (system_list != nil) && (system_list.length > 0)
         ind = system_list.index{|x| x['a']['n'] == hostname }
         if ind != nil
@@ -226,10 +215,10 @@ module CopperEgg
               return 200
             end
             response_body = valid_json?(response.body)
-            if response_body == nil
-              raise "Uptime Cloud Monitor::API invalid JSON response ... #{request}  #{request_uri}"
-            else
+            if response_body
               return response_body
+            else
+              raise "Uptime Cloud Monitor::API invalid JSON response ... #{request}  #{request_uri}"
             end
           end
         rescue Exception => e

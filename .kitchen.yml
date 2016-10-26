@@ -1,0 +1,35 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+  # require_chef_omnibus: 11.18.6
+  environments_path: environments
+  client_rb:
+    environment: development
+  roles_path: roles
+
+platforms:
+  - name: ubuntu-14.04
+  - name: opscode-ubuntu-14.04
+  - name: sr-centos-67-v1.0.1
+
+suites:
+  - name: default
+    run_list:
+      - recipe[apt]
+      - recipe[curl]
+      - recipe[copperegg::default]
+    attributes:
+      copperegg:
+        apikey: ''
+        label: 'NewServer'
+        use_fqdn: true
+        create_sshprobe: false
+        # include_env_astag: true
+        uninstall_collector: true
+        # update_latest: true
+        remove_on_uninstall: true
+      ec2:
+        public_hostname: 'test_server'

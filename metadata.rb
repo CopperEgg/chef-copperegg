@@ -2,16 +2,15 @@ name             "copperegg"
 maintainer       "IDERA"
 maintainer_email "support-uptimecm@idera.com"
 license          "MIT"
-description      "Installs/Configures Uptime Cloud Monitor services"
+description      "Installs and configures Uptime Cloud Monitor services"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.2.5"
+version          "1.0.0"
 
-depends 'chef_handler', '> 1.0.0'
+# depends 'chef_handler', '> 1.0.0'
+depends 'curl'
+depends 'apt', '= 3.0.0'
 
 recipe "copperegg::default", "Installs Uptime Cloud Monitor collector binary"
-
-# Uncomment to include support for Windows
-#depends "windows"
 
 supports 'linux', ">= 2.6.9"
 supports 'ubuntu', ">= 8.04"
