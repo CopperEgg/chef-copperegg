@@ -1,3 +1,10 @@
+#
+# Cookbook Name:: copperegg
+# # Attributes :: collector
+#
+# Copyright 2013 IDERA
+# License:: MIT License
+#
 
 default['copperegg']['must_restart'] = false
 default['copperegg']['update_latest'] = true
