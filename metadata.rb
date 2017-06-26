@@ -3,8 +3,8 @@ maintainer       'IDERA'
 maintainer_email 'support-uptimecm@idera.com'
 license          'MIT'
 description      'Installs and configures Uptime Cloud Monitor services'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.0.1'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'), { :encoding => 'utf-8' })
+version          '1.2'
 
 # depends 'chef_handler', '> 1.0.0'
 depends 'curl'

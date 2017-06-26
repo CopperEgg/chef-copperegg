@@ -1,10 +1,8 @@
-#
 # Cookbook Name:: copperegg
 # Recipe:: _install
-#
-# Copyright 2013-2016 IDERA
+# Copyright 2013-2017 IDERA
 # License:: MIT License
-#
+
 
 apikey = node['copperegg']['apikey']
 copperegg_url = node['copperegg']['url']
@@ -72,12 +70,11 @@ unless is_windows
     tag_array = node['copperegg']['alltags']
 
     copperegg_probe hn do
-      provider 'copperegg_probe'
-      action :update
       probe_desc hn
       probe_dest pd
       type 'TCP'
       tags tag_array
+      action :update
     end
   end
 end

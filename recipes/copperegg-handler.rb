@@ -1,10 +1,8 @@
-#
 # Cookbook Name:: copperegg
 # Recipe:: copperegg-handler
-#
-# Copyright 2013 IDERA
+# Copyright 2013-2017 IDERA
 # License:: MIT License
-#
+
 include_recipe 'chef_handler'
 
 # When running on Chef versions below 10.10, we have to use the gem_package workaround to install our handler,

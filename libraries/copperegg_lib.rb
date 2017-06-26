@@ -1,11 +1,8 @@
-#
 # Cookbook Name:: Uptime Cloud Monitor
 # Library:: copperegg_lib
-#
-# Copyright 2012,2013 IDERA
+# Copyright 2012-2017 IDERA
 # License:: MIT License
-#
-#
+
 
 module CopperEgg
   class API
@@ -224,7 +221,6 @@ module CopperEgg
         rescue Exception => e
           exception_try_count += 1
           if exception_try_count > attempts
-            #log "#{e.inspect}"
             raise "Uptime Cloud Monitor::API #{e} ... #{exception_try_count} retries: #{request}  #{request_uri}"
           else
             if $verbose == true

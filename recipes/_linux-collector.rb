@@ -1,10 +1,8 @@
-#
 # Cookbook Name:: copperegg
 # Recipe:: _linux-collector
-#
-# Copyright 2013-2016 IDERA
+# Copyright 2013-2017 IDERA
 # License:: MIT License
-#
+
 
 apikey = node['copperegg']['apikey']
 copperegg_url = node['copperegg']['url']
