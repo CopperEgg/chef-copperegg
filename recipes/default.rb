@@ -1,10 +1,7 @@
-#
 # Cookbook Name:: copperegg
 # Recipe:: default
-#
-# Copyright 2013-2016 IDERA
+# Copyright 2013-2017 IDERA
 # License:: MIT License
-#
 
 is_windows = (node['platform_family'] == 'windows')
 

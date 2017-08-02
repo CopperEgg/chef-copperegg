@@ -5,7 +5,8 @@ Chef Cookbook for Uptime Cloud Monitor services
 
 Requirements
 ============
-Chef 10 and up. Till chef client version 12.4.
+Chef 12.5 and up.
+For Chef 10 to 12.4 you can use version [v1.0.1] (https://github.com/CopperEgg/chef-copperegg/tree/v1.0.1)
 
 The following cookbooks are direct dependencies because they're used for common "default" functionality.
 * curl(for copperegg::default)
@@ -32,7 +33,13 @@ Attributes
 * `default['copperegg']['include_env_astag']` = Propagate the Chef environment to a Uptime Cloud Monitor tag. Default true.
 * `default['copperegg']['annotate_chefrun_success']` = Send Uptime Cloud Monitor an annotation for each successful chef run. Default false.
 * `default['copperegg']['annotate_chefrun_fail']` = Send Uptime Cloud Monitor an annotation for each failed chef run. Default true.
+* `default['copperegg']['create_sshprobe']` = Create an external SSH probe for this node. Default false.
 
+Collector Specific Attributes
+==========
+* `default['copperegg']['update_latest']` = Updates collector to latest version if any. Default true.
+* `default['copperegg']['uninstall_collector']` = Uninstall collector on the node. Default false.
+* `default['copperegg']['remove_on_uninstall']` = Uninstall collector and remove it's data from Uptime Cloud Monitor. Default false.
 
 Usage
 =====
@@ -61,13 +68,12 @@ Creating and managing website and port probes
 
 ```ruby
   copperegg_probe "ChefProbe2" do
-    provider "copperegg_probe"
-    action :update                        # update will create or update
     probe_desc 'ChefProbe2'               # the 'name' of the probe
     probe_dest "http://yoursite.com"      # the URL to test
     type 'GET'                            # the test type; in this case, an HTTP GET request
     stations ['dal','nrk']                # override the defaults and specify testing from Dallas and Fremont
     tags ["production",'load_balancer']   # The tags to apply to this probe
+    action :update                        # update will create or updatee
   end
 ```
 
@@ -87,7 +93,7 @@ That's it!
 
 Note:
 * By default, each chef run will create an annotation at copperegg only when the chef run fails.
-* You can change this behavior by changing the ['copperegg'][:annotate_chefrun_success] and ['copperegg'][:annotate_chefrun_fail] attributes in the default attributes file or by overriding them in your application cookbook.
+* You can change this behavior by changing the ['copperegg']['annotate_chefrun_success'] and ['copperegg']['annotate_chefrun_fail'] attributes in the default attributes file or by overriding them in your application cookbook.
 
 
 Links
@@ -104,7 +110,7 @@ With Contributions from Drew Oliner (https://github.com/Drewzar)
 
 (The MIT License)
 
-Copyright © 2013,2014 [IDERA](http://idera.com)
+Copyright © 2012-2017 [IDERA](http://idera.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

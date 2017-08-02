@@ -5,7 +5,7 @@ DEPENDENCIES
 
 GRAPH
   apt (3.0.0)
-  copperegg (1.0.1)
+  copperegg (1.2.0)
     apt (= 3.0.0)
     curl (>= 0.0.0)
   curl (2.0.3)

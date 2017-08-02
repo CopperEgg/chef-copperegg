@@ -1,10 +1,8 @@
-#
 # Cookbook Name:: copperegg
 # Recipe:: _uninstall
-#
-# Copyright 2013-2016 IDERA
+# Copyright 2013-2017 IDERA
 # License:: MIT License
-#
+
 
 is_windows = (node['platform_family'] == 'windows')
 apikey = node['copperegg']['apikey']
@@ -66,11 +64,10 @@ unless is_windows
     pd = "#{node['ec2']['public_hostname']}:22"
 
     copperegg_probe hn do
-      provider "copperegg_probe"
-      action :delete
       probe_desc hn
       probe_dest pd
       type 'TCP'
+      action :delete
     end
   end
 end
