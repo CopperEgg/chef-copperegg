@@ -23,17 +23,17 @@ else
 end
 require 'chef/handler/copperegg'
 
-hostname = node.name
-if node.attribute?('ec2') && node.ec2.attribute?('instance_id')
+hostname = node['name']
+if node.attribute?('ec2') && node['ec2'].attribute?('instance_id')
   hostname = hostname + ' (' + node['ec2']['instance_id'] + ')'
 end
 
 chef_handler 'Chef::Handler:copperegg' do
   arguments ['apikey' => node['copperegg']['apikey'],
-            'annotate_success' => node['copperegg']['annotate_chefrun_success'],
-            'annotate_fail' => node['copperegg']['annotate_chefrun_fail'],
-            'tags' =>  node['copperegg']['alltags'].join(','),
-            'hostname' => hostname  ]
+             'annotate_success' => node['copperegg']['annotate_chefrun_success'],
+             'annotate_fail' => node['copperegg']['annotate_chefrun_fail'],
+             'tags' =>  node['copperegg']['alltags'].join(','),
+             'hostname' => hostname  ]
   source 'chef/handler/copperegg'
   supports :report => true, :exception => true
   action :nothing

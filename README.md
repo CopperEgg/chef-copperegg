@@ -5,14 +5,14 @@ Chef Cookbook for Uptime Cloud Monitor services
 
 Requirements
 ============
-Chef 10 and up.
+Chef 10 and up. Till chef client version 12.4.
 
 The following cookbooks are direct dependencies because they're used for common "default" functionality.
 * curl(for copperegg::default)
 
 The following cookbooks are direct dependencies
 * On RHEL family distros, `recipe[yum::epel]` might be required.
-* On Ubuntu, recipe[apt::default] might be required to install curl.
+* On Ubuntu, `recipe[apt::default]` and `recipe[curl]` might be required to install and update curl.
 
 Platform
 ========
@@ -21,17 +21,17 @@ Platform
 
 Attributes
 ==========
-* `default['copperegg'][:apikey]` = Your API Key available from the [Uptime Cloud Monitor App Settings Page](https://app.copperegg.com/#settings/site).
-* `default['copperegg'][:tags]` = A comma separated list of tags to apply.  Optional.  [Manage your tags](https://app.copperegg.com/#revealcloud/tags).
-* `default['copperegg'][:label]` = Label to apply in place of hostname when displaying in the dashboard.  WARNING: If you want the same label applied to multiple systems, you may want to consider tags instead.  This is most useful if you intend a recipe for a single server.  Optional.
-* `default['copperegg'][:oom_protect]` = Flag for determining if the Linux Out Of Memory manager (OOM) should be allowed to kill the RevealCloud process. Default false (allow OOM to kill the process). Optional.
-* `default['copperegg'][:proxy]` = Proxy server required to talk to the revealcloud api servers, such as `myproxy.mycorp.com:8080`.  Optional.  Leave blank unless you know what you are doing.
-* `default['copperegg'][:use_fqdn] = Flag for using the fqdn as the uuid. true  => Agent will be started with -U node.fqdn . Default false. Optional.
-* `default['copperegg'][:include_node_tags]` = Propagate Chef node tags to Uptime Cloud Monitor tags. Default true.
-* `default['copperegg'][:include_roles_astags]` = Propagate Chef node Roles to Uptime Cloud Monitor tags. Default true.
-* `default['copperegg'][:include_env_astag]` = Propagate the Chef environment to a Uptime Cloud Monitor tag. Default true.
-* `default['copperegg'][:annotate_chefrun_success]` = Send Uptime Cloud Monitor an annotation for each successful chef run. Default false.
-* `default['copperegg'][:annotate_chefrun_fail]` = Send Uptime Cloud Monitor an annotation for each failed chef run. Default true.
+* `default['copperegg']['apikey']` = Your API Key available from the [Uptime Cloud Monitor App Settings Page](https://app.copperegg.com/#settings/site).
+* `default['copperegg']['tags']` = A comma separated list of tags to apply.  Optional.  [Manage your tags](https://app.copperegg.com/#revealcloud/tags).
+* `default['copperegg']['label']` = Label to apply in place of hostname when displaying in the dashboard.  WARNING: If you want the same label applied to multiple systems, you may want to consider tags instead.  This is most useful if you intend a recipe for a single server.  Optional.
+* `default['copperegg']['oom_protect']` = Flag for determining if the Linux Out Of Memory manager (OOM) should be allowed to kill the RevealCloud process. Default false (allow OOM to kill the process). Optional.
+* `default['copperegg']['proxy']` = Proxy server required to talk to the revealcloud api servers, such as `myproxy.mycorp.com:8080`.  Optional.  Leave blank unless you know what you are doing.
+* `default['copperegg']['use_fqdn']` = Flag for using the fqdn as the uuid. true  => Agent will be started with -U node.fqdn . Default false. Optional.
+* `default['copperegg']['include_node_tags']` = Propagate Chef node tags to Uptime Cloud Monitor tags. Default true.
+* `default['copperegg']['include_roles_astags']` = Propagate Chef node Roles to Uptime Cloud Monitor tags. Default true.
+* `default['copperegg']['include_env_astag']` = Propagate the Chef environment to a Uptime Cloud Monitor tag. Default true.
+* `default['copperegg']['annotate_chefrun_success']` = Send Uptime Cloud Monitor an annotation for each successful chef run. Default false.
+* `default['copperegg']['annotate_chefrun_fail']` = Send Uptime Cloud Monitor an annotation for each failed chef run. Default true.
 
 
 Usage
@@ -39,14 +39,16 @@ Usage
 1. Download the Uptime Cloud Monitor cookbook into your `chef-repo/cookbooks/copperegg` directory: (the cookbook directory name must be copperegg)
 * `git clone https://github.com/CopperEgg/chef-copperegg.git ./copperegg`, or
 *  manually download from the Opscode community site `http://community.opscode.com/cookbooks/copperegg`, or
-* `knife cookbook site download copperegg`
+* `knife cookbook site install copperegg`
 2. Set your apikey as described in the `Attributes` section.
 * edit `copperegg/attributes/default.rb` and change YOUR_USER_API_KEY to be correct.
-* or override `node['copperegg'][:apikey]` within role or enviromnet.
+* or override `node['copperegg']['apikey']` within role or environment.
 3. Set any other optional attributes described above, as desired.
 4. Upload the cookbook to your chef server or hosted chef:
-* `knife cookbook upload -a -o copperegg`
-5. Include `recipe[revealcloud]` in the run_list for all of your servers.
+* `knife cookbook upload -a` to upload all cookbooks or
+* `knife cookbook upload copperegg --include-dependencies`
+* To install dependencies, run `knife cookbook site install curl 2.0.3` and `knife cookbook site install apt 3.0.0`
+5. Include `recipe[copperegg]` in the run_list for all of your servers.
 * `knife node run_list add NODES 'recipe[copperegg]'`
 6. Run chef-client on your nodes in whatever manner suits you, such as `sudo chef-client` or a batch job.
 7. View your systems within 10 seconds in the [RevealCloud App](https://app.copperegg.com/#revealcloud/overview)

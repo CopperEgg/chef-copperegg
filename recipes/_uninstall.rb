@@ -21,7 +21,7 @@ unless is_windows
     cwd
     user 'root'
     code <<-EOH
-        curl http://#{apikey}@#{copperegg_url}/rc_rm.sh  > /tmp/revealcloud_uninstaller.sh
+        curl https://#{apikey}@#{copperegg_url}/rc_rm.sh  > /tmp/revealcloud_uninstaller.sh
         chmod +x /tmp/revealcloud_uninstaller.sh
         rm -rf /etc/copperegg/
         /tmp/revealcloud_uninstaller.sh
@@ -61,7 +61,7 @@ end
 
 # remove the automatic ssh probe, if enabled
 unless is_windows
-  if node['copperegg']['create_sshprobe'] && node.attribute?('ec2') && node.attribute.ec2.attribute?('public_hostname')
+  if node['copperegg']['create_sshprobe'] && node.attribute?('ec2') && node['ec2'].attribute?('public_hostname')
     hn = "CheckPort22_#{node['hostname']}"
     pd = "#{node['ec2']['public_hostname']}:22"
 

@@ -20,9 +20,9 @@ attribute :type, :kind_of => String, :required => true, :default => 'GET'
 # used internally
 attribute :probe_id, :kind_of => [NilClass,String], :default => nil
 #:default => 60, :equal_to => [15, 60, 300]
-attribute :frequency, :kind_of => [NilClass,Fixnum]
+attribute :frequency, :kind_of => [NilClass,Integer]
 #:default => 10000
-attribute :timeout, :kind_of => [NilClass,Fixnum]
+attribute :timeout, :kind_of => [NilClass,Integer]
 #:default => 'enabled'
 attribute :state, :kind_of => [NilClass,Array]
 attribute :stations, :kind_of => [NilClass,Array], :default => ['dal','nrk','fre','atl']
