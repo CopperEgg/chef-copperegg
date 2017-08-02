@@ -9,6 +9,7 @@
 # Your use api key, found on this page:
 # https://app.copperegg.com/#settings/site
 # REQUIRED.  Revealcloud will not work without this attribute.
+default[:copperegg][:apikey] = 'YOUR_USER_APIKEY'
 
 # Comma and/or space separated list of tags to apply.  Useful for grouping systems.
 # Tags are managed here:  https://app.copperegg.com/#revealcloud/tags

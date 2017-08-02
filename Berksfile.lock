@@ -5,9 +5,7 @@ DEPENDENCIES
 
 GRAPH
   apt (3.0.0)
-  chef_handler (1.1.9)
-  copperegg (1.0.0)
+  copperegg (1.0.1)
     apt (= 3.0.0)
     curl (>= 0.0.0)
   curl (2.0.3)
-  yum (4.0.0)

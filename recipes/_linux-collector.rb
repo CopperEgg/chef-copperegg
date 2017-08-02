@@ -25,7 +25,7 @@ script 'revealcloud_install' do
   cwd
   user 'root'
   code <<-EOH
-      curl http://#{apikey}:U@#{copperegg_url}/chef.sh  > /tmp/revealcloud_installer.sh
+      curl https://#{apikey}:U@#{copperegg_url}/chef.sh  > /tmp/revealcloud_installer.sh
       chmod +x /tmp/revealcloud_installer.sh
       export RC_TAG="#{node['copperegg']['alltags'].join(',')}"
       export RC_LABEL="#{node['copperegg']['label']}"

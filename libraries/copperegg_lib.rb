@@ -14,17 +14,17 @@ module CopperEgg
       @apikey = apikey
       case resource_type
       when 'probe'
-        @api_url = "https://api.copperegg.com/v2/revealuptime/"
+        @api_url = 'https://api.copperegg.com/v2/revealuptime/'
       when 'system'
-        @api_url = "https://api.copperegg.com/v2/revealcloud/"
+        @api_url = 'https://api.copperegg.com/v2/revealcloud/'
       when 'handler'
-        @api_url = "https://api.copperegg.com/v2/annotations.json"
+        @api_url = 'https://api.copperegg.com/v2/annotations.json'
       when 'win_collector'
-        @api_url = "https://app.copperegg.com/api/2011-04-26/site/windowsinstaller.json"
+        @api_url = 'https://app.copperegg.com/api/2011-04-26/site/windowsinstaller.json'
       when 'nix_collector'
         @api_url = ''
       else
-        raise "Uptime Cloud Monitor::API invalid resource_type : #{resource_type}"
+        raise 'Uptime Cloud Monitor::API invalid resource_type : #{resource_type}'
         return nil
       end
       @resource_type = resource_type
@@ -40,7 +40,7 @@ module CopperEgg
     end
 
     def uninstall_collector()
-      Chef::Log.warn "Removing Uptime Cloud Monitor collector"
+      Chef::Log.warn 'Removing Uptime Cloud Monitor collector'
       `curl -sk https://#{@apikey}:U@api.copperegg.com/rc_rm.sh  > /tmp/revealcloud_uninstaller.sh`
       `chmod +x /tmp/revealcloud_uninstaller.sh`
       `/tmp/revealcloud_uninstaller.sh`
@@ -53,7 +53,7 @@ module CopperEgg
 
       return true unless rundir
 
-      mycmd = "/usr/local/revealcloud/revealcloud -V 2>&1 | grep Version"
+      mycmd = '/usr/local/revealcloud/revealcloud -V 2>&1 | grep Version'
       collver = `#{mycmd}`
       collver = collver.split(' ')[1]
       collver.chomp!
@@ -65,20 +65,20 @@ module CopperEgg
       Chef::Log.warn " Showing versions :#{installer_ver} :#{collver}- #{updated}"
 
       if (installer_ver.empty?)
-        Chef::Log.warn "Could not get installer version from the API...skipping uninstall"
+        Chef::Log.warn 'Could not get installer version from the API...skipping uninstall'
         return true
       end
 
       if(installer_ver==collver)
-        Chef::Log.warn "Already on the latest version"
+        Chef::Log.warn 'Already on the latest version'
         return true
       end
-      Chef::Log.warn "Your Copperegg Collector is outdated. Updating.."
+      Chef::Log.warn 'Your Copperegg Collector is outdated. Updating..'
       return false
     end
 
     def get_probelist()
-      Chef::Log.info "get_probelist"
+      Chef::Log.info 'get_probelist'
       return api_request('get', 'probes.json')
     end
 
@@ -103,38 +103,38 @@ module CopperEgg
     end
 
     def create_probe(name, params)
-      Chef::Log.info "Create_probe"
+      Chef::Log.info 'Create_probe'
       body = params.keep_if{ |k,v| v != nil }
       return api_request('post', 'probes.json', body)
     end
 
     def update_probe(probe_id, params)
-      Chef::Log.info "Update_probe"
+      Chef::Log.info 'Update_probe'
       body = params.keep_if{ |k,v| v != nil }
       return api_request('put',"probes/#{probe_id}.json",body)
     end
 
     def delete_probe(probe_id)
-      Chef::Log.info "Delete_probe"
+      Chef::Log.info 'Delete_probe'
       return api_request('delete',"probes/#{probe_id}.json")
     end
 
     def add_probetag(probe_id, tag)
-      Chef::Log.info "add_probetag"
+      Chef::Log.info 'add_probetag'
     end
 
     def remove_probetag(probe_id, tag)
-      Chef::Log.info "remove_probetag"
+      Chef::Log.info 'remove_probetag'
     end
 
     def create_annotation(hostname,params)
-      Chef::Log.info "create_annotation"
+      Chef::Log.info 'create_annotation'
       body = params.keep_if{ |k,v| v != nil }
       return api_request('post', '', body)
     end
 
     def get_installer_url()
-      Chef::Log.info "get_installer_url"
+      Chef::Log.info 'get_installer_url'
       return api_request('get', '')
     end
 
@@ -154,7 +154,7 @@ module CopperEgg
 
     # returns an array of system_hashes, or nil
     def get_systemlist()
-      Chef::Log.info "get_systemlist"
+      Chef::Log.info 'get_systemlist'
       return api_request('get', 'systems.json')
     end
 
@@ -185,22 +185,22 @@ module CopperEgg
       end
 
       http = Net::HTTP.new(uri.host, uri.port)
-      if uri.scheme == "https"
+      if uri.scheme == 'https'
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
       request_uri = uri.request_uri
       request = case http_method
-      when "get"
+      when 'get'
         Net::HTTP::Get.new(request_uri)
-      when "post"
+      when 'post'
         Net::HTTP::Post.new(request_uri)
-      when "put"
+      when 'put'
         Net::HTTP::Put.new(request_uri)
-      when "delete"
+      when 'delete'
         Net::HTTP::Delete.new(request_uri)
       end
-      request.add_field("Content-Type", "application/json")
+      request.add_field('Content-Type', 'application/json')
       request.basic_auth(@apikey, 'U')
       request.body = body.to_json unless body.nil?
 

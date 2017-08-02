@@ -59,20 +59,20 @@ if is_windows
 else
   service 'revealcloud' do
     supports :restart => true, :status => true, :start => true, :stop => true
-    action [:stop, :start]
+    action [:start]
     only_if { File.exists?(agent_config_file) }
   end
 
 end
 
 unless is_windows
-  if node['copperegg']['create_sshprobe'] && node.attribute?('ec2') && node.attribute.ec2.attribute?('public_hostname')
+  if node['copperegg']['create_sshprobe'] && node.attribute?('ec2') && node['ec2'].attribute?('public_hostname')
     hn = "CheckPort22_#{node['hostname']}"
     pd = "#{node['ec2']['public_hostname']}:22"
     tag_array = node['copperegg']['alltags']
 
     copperegg_probe hn do
-      provider "copperegg_probe"
+      provider 'copperegg_probe'
       action :update
       probe_desc hn
       probe_dest pd

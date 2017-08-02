@@ -12,7 +12,7 @@ def whyrun_supported?
 end
 
 def load_current_resource
-  @cuegg = CopperEgg::API.new(node.copperegg.apikey,'probe')
+  @cuegg = CopperEgg::API.new(node['copperegg']['apikey'],'probe')
 
   @current_resource = Chef::Resource::CoppereggProbe.new(@new_resource.probe_desc)
   @current_resource.probe_desc(@new_resource.probe_desc)
@@ -67,7 +67,7 @@ action :update do
           Chef::Log.info "probe_id is #{probe_id}"
           if probe_id
             parray = node['copperegg']['myprobes']
-            if parray.include?(probe_id) == false
+            if parray && parray.include?(probe_id) == false
                Chef::Log.info "Adding probe_id #{probe_id} to array"
               parray << probe_id
               node.normal['copperegg']['myprobes'] = parray
