@@ -4,7 +4,7 @@ maintainer_email 'support-uptimecm@idera.com'
 license          'MIT'
 description      'Installs and configures Uptime Cloud Monitor services'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.0.1'
+version          '1.1.0'
 
 # depends 'chef_handler', '> 1.0.0'
 depends 'curl'
