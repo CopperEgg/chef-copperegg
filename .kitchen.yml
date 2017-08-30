@@ -20,7 +20,7 @@ suites:
     run_list:
       - recipe[apt]
       - recipe[curl]
-      - recipe[copperegg::default]
+      - recipe[uptime_cloud_monitor::default]
     attributes:
       copperegg:
         apikey: ''

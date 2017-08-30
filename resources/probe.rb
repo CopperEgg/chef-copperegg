@@ -1,4 +1,4 @@
-# Cookbook Name:: copperegg
+# Cookbook Name:: uptime_cloud_monitor
 # Resource:: probe
 # Copyright 2012-2017 Uptime Cloud Monitor Corporation
 # License:: MIT License

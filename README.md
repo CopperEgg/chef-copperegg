@@ -6,10 +6,10 @@ Chef Cookbook for Uptime Cloud Monitor services
 Requirements
 ============
 Chef 12.5 and up.
-For Chef 10 to 12.4 you can use version [v1.0.1] (https://github.com/CopperEgg/chef-copperegg/tree/v1.0.1)
+For Chef 10 to 12.4 you can use version [v1.1.0](https://github.com/CopperEgg/chef-copperegg/tree/v1.1.0)
 
 The following cookbooks are direct dependencies because they're used for common "default" functionality.
-* curl(for copperegg::default)
+* curl(for uptime_cloud_monitor::default)
 
 The following cookbooks are direct dependencies
 * On RHEL family distros, `recipe[yum::epel]` might be required.
@@ -43,20 +43,20 @@ Collector Specific Attributes
 
 Usage
 =====
-1. Download the Uptime Cloud Monitor cookbook into your `chef-repo/cookbooks/copperegg` directory: (the cookbook directory name must be copperegg)
-* `git clone https://github.com/CopperEgg/chef-copperegg.git ./copperegg`, or
-*  manually download from the Opscode community site `http://community.opscode.com/cookbooks/copperegg`, or
-* `knife cookbook site install copperegg`
+1. Download the Uptime Cloud Monitor cookbook into your `chef-repo/cookbooks/uptime_cloud_monitor` directory: (the cookbook directory name must be uptime_cloud_monitor)
+* `git clone https://github.com/CopperEgg/chef-copperegg.git ./uptime_cloud_monitor`, or
+*  manually download from the Opscode community site `http://community.opscode.com/cookbooks/uptime_cloud_monitor`, or
+* `knife cookbook site install uptime_cloud_monitor`
 2. Set your apikey as described in the `Attributes` section.
-* edit `copperegg/attributes/default.rb` and change YOUR_USER_API_KEY to be correct.
+* edit `uptime_cloud_monitor/attributes/default.rb` and change YOUR_USER_API_KEY to be correct.
 * or override `node['copperegg']['apikey']` within role or environment.
 3. Set any other optional attributes described above, as desired.
 4. Upload the cookbook to your chef server or hosted chef:
 * `knife cookbook upload -a` to upload all cookbooks or
-* `knife cookbook upload copperegg --include-dependencies`
+* `knife cookbook upload uptime_cloud_monitor --include-dependencies`
 * To install dependencies, run `knife cookbook site install curl 2.0.3` and `knife cookbook site install apt 3.0.0`
-5. Include `recipe[copperegg]` in the run_list for all of your servers.
-* `knife node run_list add NODES 'recipe[copperegg]'`
+5. Include `recipe[uptime_cloud_monitor]` in the run_list for all of your servers.
+* `knife node run_list add NODES 'recipe[uptime_cloud_monitor]'`
 6. Run chef-client on your nodes in whatever manner suits you, such as `sudo chef-client` or a batch job.
 7. View your systems within 10 seconds in the [RevealCloud App](https://app.copperegg.com/#revealcloud/overview)
 
@@ -64,10 +64,10 @@ Usage
 Creating and managing website and port probes
 =====
 1. The Uptime Cloud Monitor Cookbook contains a LightWeight Resource Provider (LWRP) for simplifying the automation of Uptime Cloud Monitor probes.
-2. To create a copperegg probe, you need to include something similar to the following example:
+2. To create a Uptime Cloud Monitor probe, you need to include something similar to the following example:
 
 ```ruby
-  copperegg_probe "ChefProbe2" do
+  uptime_cloud_monitor_probe "ChefProbe2" do
     probe_desc 'ChefProbe2'               # the 'name' of the probe
     probe_dest "http://yoursite.com"      # the URL to test
     type 'GET'                            # the test type; in this case, an HTTP GET request
@@ -77,7 +77,7 @@ Creating and managing website and port probes
   end
 ```
 
-3. You can find descriptions of all required and optional fields in copperegg/resources/probe.rb.
+3. You can find descriptions of all required and optional fields in uptime_cloud_monitor/resources/probe.rb.
 4. Refer to the Probe section of the Uptime Cloud Monitor API for further details:  [Uptime Cloud Monitor Probe API](http://dev.copperegg.com/revealuptime/probes.html)
 
 
@@ -92,7 +92,7 @@ Handlers. To enable this functionality choose one of the following:
 That's it!
 
 Note:
-* By default, each chef run will create an annotation at copperegg only when the chef run fails.
+* By default, each chef run will create an annotation at Uptime Cloud Monitor only when the chef run fails.
 * You can change this behavior by changing the ['copperegg']['annotate_chefrun_success'] and ['copperegg']['annotate_chefrun_fail'] attributes in the default attributes file or by overriding them in your application cookbook.
 
 

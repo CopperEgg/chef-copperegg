@@ -1,4 +1,4 @@
-# Cookbook Name:: copperegg
+# Cookbook Name:: uptime_cloud_monitor
 # Recipe:: _windows-collector
 # Copyright 2013-2017 IDERA
 # License:: MIT License #
