@@ -70,7 +70,7 @@ module CopperEgg
         Chef::Log.warn 'Already on the latest version'
         return true
       end
-      Chef::Log.warn 'Your Copperegg Collector is outdated. Updating..'
+      Chef::Log.warn 'Your Uptime Cloud Monitor Collector is outdated. Updating..'
       return false
     end
 

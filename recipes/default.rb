@@ -1,4 +1,4 @@
-# Cookbook Name:: copperegg
+# Cookbook Name:: uptime_cloud_monitor
 # Recipe:: default
 # Copyright 2013-2017 IDERA
 # License:: MIT License
@@ -30,9 +30,9 @@ Chef::Log.warn('Setting UUID to FQDN:\n')
 node.override['copperegg']['fqdn'] = node['fqdn'] if node['copperegg']['use_fqdn']
 
 if is_windows
-  include_recipe 'copperegg::_windows-collector'
+  include_recipe 'uptime_cloud_monitor::_windows-collector'
 else
-  include_recipe 'copperegg::_linux-collector'
+  include_recipe 'uptime_cloud_monitor::_linux-collector'
 end
 
-include_recipe node['copperegg']['uninstall_collector'] ? 'copperegg::_uninstall' : 'copperegg::_install'
+include_recipe node['copperegg']['uninstall_collector'] ? 'uptime_cloud_monitor::_uninstall' : 'uptime_cloud_monitor::_install'

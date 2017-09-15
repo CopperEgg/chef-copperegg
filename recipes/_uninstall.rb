@@ -1,4 +1,4 @@
-# Cookbook Name:: copperegg
+# Cookbook Name:: uptime_cloud_monitor
 # Recipe:: _uninstall
 # Copyright 2013-2017 IDERA
 # License:: MIT License
@@ -63,7 +63,7 @@ unless is_windows
     hn = "CheckPort22_#{node['hostname']}"
     pd = "#{node['ec2']['public_hostname']}:22"
 
-    copperegg_probe hn do
+    uptime_cloud_monitor_probe hn do
       probe_desc hn
       probe_dest pd
       type 'TCP'

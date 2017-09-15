@@ -1,4 +1,4 @@
-# Cookbook Name:: copperegg
+# Cookbook Name:: uptime_cloud_monitor
 # Recipe:: _linux-collector
 # Copyright 2013-2017 IDERA
 # License:: MIT License
@@ -6,6 +6,16 @@
 
 apikey = node['copperegg']['apikey']
 copperegg_url = node['copperegg']['url']
+revealcloud_running = false
+
+ruby_block 'check_revealcloud_status' do
+  block do
+    require 'mixlib/shellout'
+    cmd = Mixlib::ShellOut.new('ps aux|grep revealcloud|grep -v grep')
+    cmd.run_command
+    revealcloud_running = true if cmd.exitstatus == 0
+  end
+end
 
 ruby_block 'latest_collector_version' do
   block do
@@ -32,6 +42,6 @@ script 'revealcloud_install' do
       /tmp/revealcloud_installer.sh
   EOH
   action :run
-  not_if { File.exists? node['copperegg']['config_file'] || node['copperegg']['uninstall_collector'] }
+  not_if { revealcloud_running  || node['copperegg']['uninstall_collector'] }
 end
 
