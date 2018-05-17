@@ -2,9 +2,19 @@
 
 This file is used to list changes made in each version of copperegg cookbook.
 
-## 1.0.0 ()
+## 1.1.0 (2017-08-31)
 
-* Simplified collector instalation
+* Update README for the version supporting till chef client 12.4
+
+## 1.0.1 (2017-08-02)
+
+* Added support for probe monitoring
+* Fixed issues with running till chef client version 12.4
+
+## 1.0.0 (2016-10-26)
+
+* Simplified collector installation
+* Added support for test kitchen
 
 ## 0.2.5 (2014-03-10)
 
