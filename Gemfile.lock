@@ -181,7 +181,7 @@ GEM
     httpclient (2.6.0.1)
     inflecto (0.0.2)
     ipaddress (0.8.3)
-    json (2.1.0)
+    json (2.3.1)
     kitchen-vagrant (0.18.0)
       test-kitchen (~> 1.4)
     knife-ec2 (0.11.0)
